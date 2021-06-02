@@ -1064,7 +1064,7 @@ GameObject:
   - component: {fileID: 1229770364}
   - component: {fileID: 1229770366}
   m_Layer: 5
-  m_Name: val_background
+  m_Name: color_v_background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1761,7 +1761,7 @@ GameObject:
   - component: {fileID: 1544488952}
   - component: {fileID: 1544488954}
   m_Layer: 5
-  m_Name: sat_background
+  m_Name: color_s_background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1847,7 +1847,7 @@ GameObject:
   - component: {fileID: 1573897019}
   - component: {fileID: 1573897021}
   m_Layer: 5
-  m_Name: hue_background
+  m_Name: color_h_background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

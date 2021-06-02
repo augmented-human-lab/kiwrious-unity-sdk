@@ -11,7 +11,7 @@ public class ColorController : KiwriousController {
 	{
 		sensor_value = GetComponentInChildren<Text>();
         sensor_graphic = GetComponent<Image>();
-        colorProperty = name.Split('_')[0];
+        colorProperty = name.Split('_')[1].ToUpper();
 	}
 
     void Update () {
@@ -19,8 +19,7 @@ public class ColorController : KiwriousController {
 		sensor_graphic.enabled = KiwriousSerialReader.instance.color.isOnline;
 		if (sensor_value.enabled)
 		{
-			sensor_value.text = SerialReader.instance.hsv[colorProperty].ToString();
-			sensor_value.text = KiwriousSerialReader.instance.color.values["ColorH"].ToString();
+			sensor_value.text = KiwriousSerialReader.instance.color.values[$"Color{colorProperty}"].ToString();
 		}
 	}
 
