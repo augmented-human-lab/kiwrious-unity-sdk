@@ -128,7 +128,6 @@ public class SerialReader : MonoBehaviour{
 			sensorEvents[disconnectedSensor.Type] = (false);
 			SerialPort activePort = activePorts.Where(s => s.PortName == port).FirstOrDefault();
 			activePort.Close();
-			activePort.Dispose();
 			activePorts.Remove(activePort);
 			Thread reader = sensorReaders.Where(r => r.Name == port).FirstOrDefault();
 			reader.Join();
@@ -144,8 +143,7 @@ public class SerialReader : MonoBehaviour{
 		SENSOR_TYPE sensorType = (SENSOR_TYPE)GetSensorTypeByPort(port);
 		sensorEvents[(int)sensorType] = (true);
 		byte[] data = new byte[PACKET_SIZE];
-		SerialPort stream = new SerialPort(port);
-		stream.BaudRate = BAUD_RATE;
+		SerialPort stream = new SerialPort(port, BAUD_RATE);
 		activePorts.Add(stream);
 		if (!stream.IsOpen)
 		{
@@ -162,15 +160,14 @@ public class SerialReader : MonoBehaviour{
 				stream.Close();
 			}
 		}
-		stream.Dispose();
+		stream.Close();
 
 	}
 
 	private void IdentifySerialDevice(string port) {
 		Debug.Log("Identify");
 		byte[] data = new byte[PACKET_SIZE];
-		SerialPort serialPort = new SerialPort(port);
-		serialPort.BaudRate = BAUD_RATE;
+		SerialPort serialPort = new SerialPort(port, BAUD_RATE);
 		serialPort.ReadTimeout = READ_TIMEOUT;
 		serialPort.Open();
 		int attempts = 0;
@@ -239,13 +236,11 @@ public class SerialReader : MonoBehaviour{
 		}
 		foreach (SerialPort s in activePorts) {
 			s.Close();
-			s.Dispose();
 		}
         foreach (Thread reader in sensorReaders)
         {
 			SerialPort port = new SerialPort(reader.Name);
 			port.Close();
-			port.Dispose();
 			Debug.Log(reader.IsAlive);
             try
             {

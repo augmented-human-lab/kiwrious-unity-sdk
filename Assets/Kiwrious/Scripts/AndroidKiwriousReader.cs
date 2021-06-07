@@ -7,10 +7,9 @@ using static Assets.Kiwrious.Scripts.Constants;
 public class AndroidKiwriousReader : KiwriousReader
 {
 
-    const string pluginName = "org.ahlab.kiwrious.android.Plugin";
-
-    static AndroidJavaClass _pluginClass;
-    static AndroidJavaObject _pluginInstance;
+    private const string pluginName = "org.ahlab.kiwrious.android.Plugin";
+    private static AndroidJavaClass _pluginClass;
+    private static AndroidJavaObject _pluginInstance;
 
 	public static AndroidJavaClass PluginClass
 	{
@@ -42,14 +41,14 @@ public class AndroidKiwriousReader : KiwriousReader
 
 	public override SensorData GetConductivity()
 	{
-		float conductivity = PluginInstance.Call<float>("getConductivity");
+		float conductivity = callNative("getConductivity");
 		SensorData data = new SensorData
 		{
-			isOnline = PluginInstance.Get<bool>("conductivity_online"),
+			isOnline = getNative("conductivity_online"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
-			{ "Conductivity", conductivity }
+			{ OBSERVABLES.CONDUCTIVITY, conductivity }
 		}
 		};
 		return data;
@@ -57,14 +56,14 @@ public class AndroidKiwriousReader : KiwriousReader
 
 	public override SensorData GetVOC()
 	{
-		float voc = PluginInstance.Call<float>("getVoc");
+		float voc = callNative("getVoc");
 		SensorData data = new SensorData
 		{
-			isOnline = PluginInstance.Get<bool>("voc_online"),
+			isOnline = getNative("voc_online"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
-			{ "VOC", voc }
+			{ OBSERVABLES.VOC, voc }
 		}
 		};
 		return data;
@@ -72,16 +71,16 @@ public class AndroidKiwriousReader : KiwriousReader
 
     public override SensorData GetUVLux()
     {
-		float uv = PluginInstance.Call<float>("getUV");
-		float lux = PluginInstance.Call<float>("getLux");
+		float uv = callNative("getUV");
+		float lux = callNative("getLux");
 		SensorData data = new SensorData
 		{
-			isOnline = PluginInstance.Get<bool>("uv_lux_online"),
+			isOnline = getNative("uv_lux_online"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
-			{ "UV", uv },
-			{ "Lux", lux }
+			{ OBSERVABLES.UV, uv },
+			{ OBSERVABLES.LUX, lux }
 		}
 		};
 		return data;
@@ -89,16 +88,16 @@ public class AndroidKiwriousReader : KiwriousReader
 
     public override SensorData GetHumidityTemperature()
     {
-		float humidity = PluginInstance.Call<float>("getHumidity");
-		float temperature = PluginInstance.Call<float>("getTemperature");
+		float humidity = callNative("getHumidity");
+		float temperature = callNative("getTemperature");
 		SensorData data = new SensorData
 		{
-			isOnline = PluginInstance.Get<bool>("humidity_temperature_online"),
+			isOnline = getNative("humidity_temperature_online"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
-			{ "Humidity", humidity },
-			{ "Temperature", temperature }
+			{ OBSERVABLES.HUMIDITY, humidity },
+			{ OBSERVABLES.TEMPERATURE, temperature }
 		}
 		};
 		return data;
@@ -106,21 +105,30 @@ public class AndroidKiwriousReader : KiwriousReader
 
     public override SensorData GetColor()
     {
-		float color_h = PluginInstance.Call<float>("getColorH");
-		float color_s = PluginInstance.Call<float>("getColorS");
-		float color_v = PluginInstance.Call<float>("getColorV");
+		float color_h = callNative("getColorH");
+		float color_s = callNative("getColorS");
+		float color_v = callNative("getColorV");
 		SensorData data = new SensorData
 		{
-			isOnline = PluginInstance.Get<bool>("color_online"),
+			isOnline = getNative("color_online"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
-			{ "ColorH", color_h },
-			{ "ColorS", color_s },
-			{ "ColorV", color_v }
+			{ OBSERVABLES.COLOR_H, color_h },
+			{ OBSERVABLES.COLOR_S, color_s },
+			{ OBSERVABLES.COLOR_V, color_v }
 		}
 		};
 		return data;
+	}
+
+	private float callNative(string methodName) {
+		return PluginInstance.Call<float>(methodName);
+	}
+
+	private bool getNative(string propertyName)
+	{
+		return PluginInstance.Get<bool>(propertyName);
 	}
 
 }

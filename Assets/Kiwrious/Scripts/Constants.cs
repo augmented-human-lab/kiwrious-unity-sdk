@@ -21,5 +21,17 @@
 		}
 	}
 
+	public class OBSERVABLES {
+		public static string UV = "UV";
+		public static string CONDUCTIVITY = "Conductivity";
+		public static string HUMIDITY = "Humidity";
+		public static string TEMPERATURE = "Temperature";
+		public static string LUX = "Lux";
+		public static string COLOR_H = "ColorH";
+		public static string COLOR_S = "ColorS";
+		public static string COLOR_V = "ColorV";
+		public static string VOC = "VOC";
+	}
+
 	
 }

@@ -19,7 +19,7 @@ public class WindowsKiwriousReader : KiwriousReader {
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
-            { "Conductivity", SerialReader.instance.conductivity }
+            { OBSERVABLES.CONDUCTIVITY, SerialReader.instance.conductivity }
         }
         };
         return data;
@@ -33,7 +33,7 @@ public class WindowsKiwriousReader : KiwriousReader {
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
-            { "VOC", SerialReader.instance.voc1 }
+            { OBSERVABLES.VOC, SerialReader.instance.voc1 }
         }
         };
         return data;
@@ -47,8 +47,8 @@ public class WindowsKiwriousReader : KiwriousReader {
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
-            { "UV", SerialReader.instance.uv },
-            { "Lux", SerialReader.instance.lux }
+            { OBSERVABLES.UV, SerialReader.instance.uv },
+            { OBSERVABLES.LUX, SerialReader.instance.lux }
         }
         };
         return data;
@@ -62,8 +62,8 @@ public class WindowsKiwriousReader : KiwriousReader {
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
-            { "Humidity", SerialReader.instance.humidity },
-            { "Temperature", SerialReader.instance.temperature }
+            { OBSERVABLES.HUMIDITY, SerialReader.instance.humidity },
+            { OBSERVABLES.TEMPERATURE, SerialReader.instance.temperature }
         }
         };
         return data;
@@ -77,9 +77,9 @@ public class WindowsKiwriousReader : KiwriousReader {
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
-            { "ColorH", SerialReader.instance.color_h },
-            { "ColorS", SerialReader.instance.color_s },
-            { "ColorV", SerialReader.instance.color_v }
+            { OBSERVABLES.COLOR_H, SerialReader.instance.color_h },
+            { OBSERVABLES.COLOR_S, SerialReader.instance.color_s },
+            { OBSERVABLES.COLOR_V, SerialReader.instance.color_v }
         }
         };
         return data;
