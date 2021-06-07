@@ -1,7 +1,8 @@
-﻿using kiwrious;
-using System.Collections;
+﻿using Assets.Kiwrious.Scripts;
+using kiwrious;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Kiwrious.Scripts.Constants;
 
 public class AndroidKiwriousReader : KiwriousReader
 {

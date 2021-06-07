@@ -753,6 +753,48 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 846554321}
   m_CullTransparentMesh: 0
+--- !u!1 &856502013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 856502015}
+  - component: {fileID: 856502014}
+  m_Layer: 0
+  m_Name: Dotnet Plugin Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &856502014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 856502013}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4dfa2ab7422244388153377607e532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorIds: []
+  conductivity: 0
+--- !u!4 &856502015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 856502013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 780.11084, y: 530.3585, z: -5.793804}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &861774425
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,9 +934,9 @@ GameObject:
   - component: {fileID: 1036267837}
   - component: {fileID: 1036267839}
   - component: {fileID: 1036267838}
-  - component: {fileID: 1036267840}
+  - component: {fileID: 1036267841}
   m_Layer: 5
-  m_Name: voc_background
+  m_Name: VOC.VOC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -953,7 +995,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1036267836}
   m_CullTransparentMesh: 0
---- !u!114 &1036267840
+--- !u!114 &1036267841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -961,12 +1003,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1036267836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65d7339224eefcf409d2f3606f1172db, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1100895341
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,9 +1022,9 @@ GameObject:
   - component: {fileID: 1100895342}
   - component: {fileID: 1100895344}
   - component: {fileID: 1100895343}
-  - component: {fileID: 1100895345}
+  - component: {fileID: 1100895346}
   m_Layer: 5
-  m_Name: lux_background
+  m_Name: Uv.Lux
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1038,7 +1083,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1100895341}
   m_CullTransparentMesh: 0
---- !u!114 &1100895345
+--- !u!114 &1100895346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1046,12 +1091,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1100895341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b39cda4dde2838d49b5d2f81714505dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1229770362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,9 +1110,9 @@ GameObject:
   - component: {fileID: 1229770363}
   - component: {fileID: 1229770365}
   - component: {fileID: 1229770364}
-  - component: {fileID: 1229770366}
+  - component: {fileID: 1229770367}
   m_Layer: 5
-  m_Name: color_v_background
+  m_Name: Color.ColorV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1123,7 +1171,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1229770362}
   m_CullTransparentMesh: 0
---- !u!114 &1229770366
+--- !u!114 &1229770367
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1131,13 +1179,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1229770362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7839c757e713c6440b21807adbead7d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
-  colorProperty: 
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1230522885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,9 +1376,9 @@ GameObject:
   - component: {fileID: 1251665851}
   - component: {fileID: 1251665853}
   - component: {fileID: 1251665852}
-  - component: {fileID: 1251665854}
+  - component: {fileID: 1251665855}
   m_Layer: 5
-  m_Name: humidity_background
+  m_Name: Humidity.Humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1387,7 +1437,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1251665850}
   m_CullTransparentMesh: 0
---- !u!114 &1251665854
+--- !u!114 &1251665855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1395,12 +1445,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1251665850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885fa876668b596468d8863e14be70b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1270194175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1411,9 +1464,9 @@ GameObject:
   - component: {fileID: 1270194176}
   - component: {fileID: 1270194178}
   - component: {fileID: 1270194177}
-  - component: {fileID: 1270194179}
+  - component: {fileID: 1270194180}
   m_Layer: 5
-  m_Name: conductivity_background
+  m_Name: Conductivity.Conductivity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1472,7 +1525,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270194175}
   m_CullTransparentMesh: 0
---- !u!114 &1270194179
+--- !u!114 &1270194180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1480,12 +1533,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270194175}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbcf14c747ee7f44ba2c1a07a161ec23, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 1
 --- !u!1 &1306393333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,9 +1641,9 @@ GameObject:
   - component: {fileID: 1358233481}
   - component: {fileID: 1358233483}
   - component: {fileID: 1358233482}
-  - component: {fileID: 1358233484}
+  - component: {fileID: 1358233485}
   m_Layer: 5
-  m_Name: temperature_background
+  m_Name: Humidity.Temperature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1646,7 +1702,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1358233480}
   m_CullTransparentMesh: 0
---- !u!114 &1358233484
+--- !u!114 &1358233485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1654,12 +1710,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1358233480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd48fdfaaa472284f92363f4fe49ae20, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1468386937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,7 +1820,7 @@ GameObject:
   - component: {fileID: 1544488952}
   - component: {fileID: 1544488954}
   m_Layer: 5
-  m_Name: color_s_background
+  m_Name: Color.ColorS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1828,13 +1887,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1544488950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7839c757e713c6440b21807adbead7d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
-  colorProperty: 
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1573897017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,7 +1908,7 @@ GameObject:
   - component: {fileID: 1573897019}
   - component: {fileID: 1573897021}
   m_Layer: 5
-  m_Name: color_h_background
+  m_Name: Color.ColorH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1914,13 +1975,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1573897017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7839c757e713c6440b21807adbead7d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
-  colorProperty: 
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 0
 --- !u!1 &1639155846
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,9 +2212,9 @@ GameObject:
   - component: {fileID: 1846443323}
   - component: {fileID: 1846443325}
   - component: {fileID: 1846443324}
-  - component: {fileID: 1846443326}
+  - component: {fileID: 1846443327}
   m_Layer: 5
-  m_Name: uv_background
+  m_Name: Uv.UV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2210,7 +2273,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1846443322}
   m_CullTransparentMesh: 0
---- !u!114 &1846443326
+--- !u!114 &1846443327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2218,12 +2281,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1846443322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 201f54b7cfff6584a83befdb546b8d9d, type: 3}
+  m_Script: {fileID: 11500000, guid: 754f409044565df49a6f47a53fd3a64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSensorOnline: 0
   sensor_value: {fileID: 0}
   sensor_graphic: {fileID: 0}
+  isSensorOnline: 0
+  sensorName: 
+  propertyName: 
+  noOfDecimals: 1
 --- !u!1 &2006625037
 GameObject:
   m_ObjectHideFlags: 0

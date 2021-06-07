@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Kiwrious.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,12 +7,19 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using static Assets.Kiwrious.Scripts.Constants;
 
 public class SerialReader : MonoBehaviour{
 
 	public static SerialReader instance;
 
-	[SerializeField]
+	private const int PACKET_SIZE = 26;
+	private const int BAUD_RATE = 115200;
+	private const int READ_TIMEOUT = 1500;
+	private const int MAX_RETRY_ATTEMPTS = 128;
+	private const int PACKET_HEADER_BYTE = 0X0a;
+	private const int PACKET_FOOTER_BYTE = 0X0b;
+
 	public Dictionary<int, bool> sensorEvents = new Dictionary<int, bool>();
 
 	public float voc1;
@@ -24,25 +32,20 @@ public class SerialReader : MonoBehaviour{
 	public float color_h;
 	public float color_s;
 	public float color_v;
-	public Dictionary<string, float> hsv = new Dictionary<string, float>
-	{
-		{ "hue", 0 },
-		{ "sat", 0 },
-		{ "val", 0 }
-	};
 
 	public bool listen;
-	Coroutine serialListener;
-	public string[] connectedSerialPorts;
+	private Coroutine serialListener;
 
 	[SerializeField]
-	public List<KiwriousSensor> kiwriousSensorRegistry = new List<KiwriousSensor>();
+	private string[] connectedSerialPorts;
 	[SerializeField]
-	public List<KiwriousSensor> connectedKiwriousSensors = new List<KiwriousSensor>();
+	private List<KiwriousSensor> kiwriousSensorRegistry = new List<KiwriousSensor>();
+	[SerializeField]
+	private List<KiwriousSensor> connectedKiwriousSensors = new List<KiwriousSensor>();
 
-    public List<Thread> sensorReaders = new List<Thread>();
-	public List<SerialPort> activePorts = new List<SerialPort>();
-	public Dictionary<SENSOR_TYPE, Action<string, byte[]>> readMethods = new Dictionary<SENSOR_TYPE, Action<string, byte[]>>();
+	private List<Thread> sensorReaders = new List<Thread>();
+	private List<SerialPort> activePorts = new List<SerialPort>();
+	private Dictionary<SENSOR_TYPE, Action<string, byte[]>> decodeMethods = new Dictionary<SENSOR_TYPE, Action<string, byte[]>>();
 
 	void Awake() {
 		instance = this;
@@ -54,13 +57,13 @@ public class SerialReader : MonoBehaviour{
         sensorEvents[(int)SENSOR_TYPE.VOC] = false;
         sensorEvents[(int)SENSOR_TYPE.Uv] = false;
         sensorEvents[(int)SENSOR_TYPE.Color] = false;
-        serialListener = StartCoroutine(ScanPorts());
-		readMethods[SENSOR_TYPE.Conductivity] = ReadConductivity;
-        readMethods[SENSOR_TYPE.Humidity] = ReadHumidity;
-        readMethods[SENSOR_TYPE.Uv] = ReadUV;
-        readMethods[SENSOR_TYPE.VOC] = ReadVOC;
-        readMethods[SENSOR_TYPE.Color] = ReadColor;
-    }
+		decodeMethods[SENSOR_TYPE.Conductivity] = DecodeConductivity;
+        decodeMethods[SENSOR_TYPE.Humidity] = DecodeHumidity;
+        decodeMethods[SENSOR_TYPE.Uv] = DecodeUV;
+        decodeMethods[SENSOR_TYPE.VOC] = DecodeVOC;
+        decodeMethods[SENSOR_TYPE.Color] = DecodeColor;
+		serialListener = StartCoroutine(ScanPorts());
+	}
 
 	IEnumerator ScanPorts() {
 		while (listen) {
@@ -140,8 +143,9 @@ public class SerialReader : MonoBehaviour{
 		Debug.Log($"Read {port}");
 		SENSOR_TYPE sensorType = (SENSOR_TYPE)GetSensorTypeByPort(port);
 		sensorEvents[(int)sensorType] = (true);
-		byte[] data = new byte[25];
+		byte[] data = new byte[PACKET_SIZE];
 		SerialPort stream = new SerialPort(port);
+		stream.BaudRate = BAUD_RATE;
 		activePorts.Add(stream);
 		if (!stream.IsOpen)
 		{
@@ -150,8 +154,8 @@ public class SerialReader : MonoBehaviour{
 		while (stream.IsOpen)
 		{
 			try {
-				stream.Read(data, 0, 25);
-				readMethods[sensorType](port, data);
+				stream.Read(data, 0, PACKET_SIZE);
+				decodeMethods[sensorType](port, data);
 			}
 			catch (Exception ex) {
 				Debug.LogError(ex.Message);
@@ -164,32 +168,67 @@ public class SerialReader : MonoBehaviour{
 
 	private void IdentifySerialDevice(string port) {
 		Debug.Log("Identify");
-		byte[] data = new byte[25];
+		byte[] data = new byte[PACKET_SIZE];
 		SerialPort serialPort = new SerialPort(port);
+		serialPort.BaudRate = BAUD_RATE;
+		serialPort.ReadTimeout = READ_TIMEOUT;
 		serialPort.Open();
-        serialPort.ReadTimeout = 500;
-        data[1] = 0;
-		while (data[1] == 0)
+		int attempts = 0;
+
+		if (!serialPort.BaseStream.CanRead)
 		{
-			try
+			Debug.Log($"Can't read {port}");
+		}
+
+		List<int> buffer = new List<int>();
+		bool headerFound = false;
+        while (attempts < MAX_RETRY_ATTEMPTS)
+        {
+            attempts++;
+            Debug.Log($"Searching for the header {port}");
+			
+			buffer.Add(serialPort.BaseStream.ReadByte());
+			if (buffer.Count > PACKET_SIZE) 
 			{
-				serialPort.Read(data, 0, 25);
+				buffer.RemoveAt(0);
 			}
-			catch (Exception e)
-			{
-				Debug.LogError(e.Message);
-				break;
+			if (buffer.Count == PACKET_SIZE) {
+				if (buffer.ElementAt(0) == PACKET_HEADER_BYTE && 
+					buffer.ElementAt(1) == PACKET_HEADER_BYTE && 
+					buffer.ElementAt(PACKET_SIZE-1) == PACKET_FOOTER_BYTE && 
+					buffer.ElementAt(PACKET_SIZE-2) == PACKET_FOOTER_BYTE)
+				{
+					headerFound = true;
+					break;
+				}
 			}
 		}
-		if (Enum.IsDefined(typeof(SENSOR_TYPE), (SENSOR_TYPE)data[1]))
+		if (!headerFound) 
+		{ 
+			Debug.Log("No header"); 
+			return; 
+		}
+		try
+        {
+			for (int i=0; i<PACKET_SIZE; i++) {
+				data[i] = (byte)serialPort.BaseStream.ReadByte();
+			}
+		}
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+
+        Debug.Log("Identify done");
+		if (Enum.IsDefined(typeof(SENSOR_TYPE), (SENSOR_TYPE)data[2]))
 		{
-			string sensorName = Enum.GetName(typeof(SENSOR_TYPE), data[1]);
-			kiwriousSensorRegistry.Add(new KiwriousSensor(sensorName, data[1], port));
-			connectedKiwriousSensors.Add(new KiwriousSensor(sensorName, data[1], port));
+			string sensorName = Enum.GetName(typeof(SENSOR_TYPE), data[2]);
+			kiwriousSensorRegistry.Add(new KiwriousSensor(sensorName, data[2], port));
+			connectedKiwriousSensors.Add(new KiwriousSensor(sensorName, data[2], port));
 			Debug.Log($"{sensorName} sensor connected!");
 		}
 		else {
-			Debug.Log($"type [{data?[1]} is not registered as a kiwrious sensor]");
+			Debug.Log($"type [{data?[2]} is not registered as a kiwrious sensor]");
 		};
         serialPort.Close();
 	}
@@ -220,7 +259,7 @@ public class SerialReader : MonoBehaviour{
     }
 
 	#region Decode methods
-	private void ReadConductivity(string port, byte[] data)
+	private void DecodeConductivity(string port, byte[] data)
 	{
 		string d0a = Convert.ToString(data[6], 16);
 		string d0b = Convert.ToString(data[5], 16);
@@ -245,11 +284,11 @@ public class SerialReader : MonoBehaviour{
 		else
 		{
 			conductivity = d0i * d1i;
-			conductivity = (1 / conductivity) * Mathf.Pow(10, 6);
+			conductivity = (float)((1 / conductivity) * Math.Pow(10, 6));
 		}
 	}
 
-	private void ReadHumidity(string port, byte[] data)
+	private void DecodeHumidity(string port, byte[] data)
 	{
 		string temp_a = Convert.ToString(data[6], 16);
 		string temp_b = Convert.ToString(data[5], 16);
@@ -271,7 +310,7 @@ public class SerialReader : MonoBehaviour{
 		humidity = d1i / 100;
 	}
 
-	private void ReadUV(string port, byte[] data)
+	private void DecodeUV(string port, byte[] data)
 	{
 		string data0_a = Convert.ToString(data[8], 16);
 		string data0_b = Convert.ToString(data[7], 16);
@@ -311,7 +350,7 @@ public class SerialReader : MonoBehaviour{
 		uv = HexToFloat(data1);
 	}
 
-	void ReadColor(string port, byte[] data)
+	private void DecodeColor(string port, byte[] data)
 	{
 		string data0_a = Convert.ToString(data[6], 16);
 		string data0_b = Convert.ToString(data[5], 16);
@@ -341,20 +380,16 @@ public class SerialReader : MonoBehaviour{
 		string data1 = data1_a + data1_b;
 		string data2 = data2_a + data2_b;
 		string data3 = data3_a + data3_b;
-		float r = Mathf.Sqrt(int.Parse(data0, NumberStyles.HexNumber));
-		float g = Mathf.Sqrt(int.Parse(data1, NumberStyles.HexNumber));
-		float b = Mathf.Sqrt(int.Parse(data2, NumberStyles.HexNumber));
-		float w = Mathf.Sqrt(int.Parse(data3, NumberStyles.HexNumber));
-		color_h = Mathf.FloorToInt(r);
-		color_s = Mathf.FloorToInt(g);
-		color_v = Mathf.FloorToInt(b);
-		hsv["hue"] = color_h;
-		hsv["sat"] = color_s;
-		hsv["val"] = color_v;
-		//color = new Color32((byte)reading1, (byte)reading2, (byte)reading3, 255);
-	}
+		double r = Math.Sqrt(int.Parse(data0, NumberStyles.HexNumber));
+		double g = Math.Sqrt(int.Parse(data1, NumberStyles.HexNumber));
+		double b = Math.Sqrt(int.Parse(data2, NumberStyles.HexNumber));
+		double w = Math.Sqrt(int.Parse(data3, NumberStyles.HexNumber));
+		color_h = (float)Math.Floor(r);
+        color_s = (float)Math.Floor(g);
+        color_v = (float)Math.Floor(b);
+    }
 
-	private void ReadVOC(string port, byte[] data)
+	private void DecodeVOC(string port, byte[] data)
 	{
 		string data0_a = Convert.ToString(data[6], 16);
 		string data0_b = Convert.ToString(data[5], 16);
@@ -402,28 +437,4 @@ public class SerialReader : MonoBehaviour{
 
 }
 
-public enum SENSOR_TYPE
-{
-	Uv = 1,
-	Color = 3,
-	Conductivity = 4,
-	Humidity = 7,
-	VOC = 6,
-	BODY_TEMP = 2,
-	SOUND = 8,
-	HEART_RATE = 5
-}
 
-[Serializable]
-public class KiwriousSensor
-{
-	public KiwriousSensor(string name, int type, string port)
-	{
-		Name = name;
-		Type = type;
-		Port = port;
-	}
-	public int Type { get; set; }
-	public string Name { get; set; }
-	public string Port { get; set; }
-}

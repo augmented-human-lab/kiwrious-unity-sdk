@@ -1,7 +1,8 @@
-﻿using kiwrious;
-using System.Collections;
+﻿using Assets.Kiwrious.Scripts;
+using kiwrious;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Kiwrious.Scripts.Constants;
 
 public class WindowsKiwriousReader : KiwriousReader {
 
@@ -12,7 +13,6 @@ public class WindowsKiwriousReader : KiwriousReader {
 
     public override SensorData GetConductivity()
     {
-        Debug.Log("Get Conductivity windows Reader");
         SensorData data = new SensorData
         {
             isOnline = SerialReader.instance.sensorEvents[(int)SENSOR_TYPE.Conductivity],
@@ -27,7 +27,6 @@ public class WindowsKiwriousReader : KiwriousReader {
 
     public override SensorData GetVOC()
     {
-        Debug.Log("Get VOC windows Reader");
         SensorData data = new SensorData
         {
             isOnline = SerialReader.instance.sensorEvents[(int)SENSOR_TYPE.VOC],
@@ -42,7 +41,6 @@ public class WindowsKiwriousReader : KiwriousReader {
 
     public override SensorData GetUVLux()
     {
-        Debug.Log("Get UV Lux windows Reader");
         SensorData data = new SensorData
         {
             isOnline = SerialReader.instance.sensorEvents[(int)SENSOR_TYPE.Uv],
@@ -58,7 +56,6 @@ public class WindowsKiwriousReader : KiwriousReader {
 
     public override SensorData GetHumidityTemperature()
     {
-        Debug.Log("Get Humidity Temperature windows Reader");
         SensorData data = new SensorData
         {
             isOnline = SerialReader.instance.sensorEvents[(int)SENSOR_TYPE.Humidity],
@@ -74,7 +71,6 @@ public class WindowsKiwriousReader : KiwriousReader {
 
     public override SensorData GetColor()
     {
-        Debug.Log("Get Color windows Reader");
         SensorData data = new SensorData
         {
             isOnline = SerialReader.instance.sensorEvents[(int)SENSOR_TYPE.Color],
