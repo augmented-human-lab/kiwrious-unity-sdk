@@ -149,16 +149,66 @@ public class SerialReader : MonoBehaviour{
 		{
 			stream.Open();
 		}
+		int attempts = 0;
+		bool headerFound = false;
+		List<int> buffer = new List<int>();
 		while (stream.IsOpen)
 		{
-			try {
-				stream.Read(data, 0, PACKET_SIZE);
-				decodeMethods[sensorType](port, data);
+			// new reading method
+			while (!headerFound && attempts < MAX_RETRY_ATTEMPTS)
+			{
+				attempts++;
+				Debug.Log($"Searching for the header {port}");
+
+				buffer.Add(stream.BaseStream.ReadByte());
+				if (buffer.Count > PACKET_SIZE)
+				{
+					buffer.RemoveAt(0);
+				}
+				if (buffer.Count == PACKET_SIZE)
+				{
+					if (buffer.ElementAt(0) == PACKET_HEADER_BYTE &&
+						buffer.ElementAt(1) == PACKET_HEADER_BYTE &&
+						buffer.ElementAt(PACKET_SIZE - 1) == PACKET_FOOTER_BYTE &&
+						buffer.ElementAt(PACKET_SIZE - 2) == PACKET_FOOTER_BYTE)
+					{
+						headerFound = true;
+						break;
+					}
+				}
+			}
+			if (!headerFound)
+			{
+				Debug.Log("No header");
+				return;
+			}
+			try
+			{
+				byte[] packet = new byte[PACKET_SIZE];
+				for (int i = 0; i < PACKET_SIZE; i++)
+				{
+					packet[i] = (byte)stream.BaseStream.ReadByte();
+				}
+				string temp = "";
+				foreach (byte b in packet) {
+					temp += $"{b} ";
+				}
+				Debug.Log(temp);
+				decodeMethods[sensorType](port, packet);
 			}
 			catch (Exception ex) {
 				Debug.LogError(ex.Message);
 				stream.Close();
 			}
+			// end new reading method
+			//try {
+			//	stream.Read(data, 0, PACKET_SIZE);
+			//	decodeMethods[sensorType](port, data);
+			//}
+			//catch (Exception ex) {
+			//	Debug.LogError(ex.Message);
+			//	stream.Close();
+			//}
 		}
 		stream.Close();
 
@@ -256,10 +306,10 @@ public class SerialReader : MonoBehaviour{
 	#region Decode methods
 	private void DecodeConductivity(string port, byte[] data)
 	{
-		string d0a = Convert.ToString(data[6], 16);
-		string d0b = Convert.ToString(data[5], 16);
-		string d1a = Convert.ToString(data[8], 16);
-		string d1b = Convert.ToString(data[7], 16);
+		string d0a = Convert.ToString(data[7], 16);
+		string d0b = Convert.ToString(data[6], 16);
+		string d1a = Convert.ToString(data[9], 16);
+		string d1b = Convert.ToString(data[8], 16);
 		if (d0b.Length < 2)
 		{
 			d0b = "0" + d0b;
@@ -285,10 +335,10 @@ public class SerialReader : MonoBehaviour{
 
 	private void DecodeHumidity(string port, byte[] data)
 	{
-		string temp_a = Convert.ToString(data[6], 16);
-		string temp_b = Convert.ToString(data[5], 16);
-		string hum_a = Convert.ToString(data[8], 16);
-		string hum_b = Convert.ToString(data[7], 16);
+		string temp_a = Convert.ToString(data[7], 16);
+		string temp_b = Convert.ToString(data[6], 16);
+		string hum_a = Convert.ToString(data[9], 16);
+		string hum_b = Convert.ToString(data[8], 16);
 		if (temp_b.Length < 2)
 		{
 			temp_b = "0" + temp_b;
@@ -307,14 +357,14 @@ public class SerialReader : MonoBehaviour{
 
 	private void DecodeUV(string port, byte[] data)
 	{
-		string data0_a = Convert.ToString(data[8], 16);
-		string data0_b = Convert.ToString(data[7], 16);
-		string data0_c = Convert.ToString(data[6], 16);
-		string data0_d = Convert.ToString(data[5], 16);
-		string data1_a = Convert.ToString(data[12], 16);
-		string data1_b = Convert.ToString(data[11], 16);
-		string data1_c = Convert.ToString(data[10], 16);
-		string data1_d = Convert.ToString(data[9], 16);
+		string data0_a = Convert.ToString(data[9], 16);
+		string data0_b = Convert.ToString(data[8], 16);
+		string data0_c = Convert.ToString(data[7], 16);
+		string data0_d = Convert.ToString(data[6], 16);
+		string data1_a = Convert.ToString(data[13], 16);
+		string data1_b = Convert.ToString(data[12], 16);
+		string data1_c = Convert.ToString(data[11], 16);
+		string data1_d = Convert.ToString(data[10], 16);
 		if (data0_b.Length < 2)
 		{
 			data0_b = "0" + data0_b;
@@ -347,14 +397,14 @@ public class SerialReader : MonoBehaviour{
 
 	private void DecodeColor(string port, byte[] data)
 	{
-		string data0_a = Convert.ToString(data[6], 16);
-		string data0_b = Convert.ToString(data[5], 16);
-		string data1_a = Convert.ToString(data[8], 16);
-		string data1_b = Convert.ToString(data[7], 16);
-		string data2_a = Convert.ToString(data[10], 16);
-		string data2_b = Convert.ToString(data[9], 16);
-		string data3_a = Convert.ToString(data[12], 16);
-		string data3_b = Convert.ToString(data[11], 16);
+		string data0_a = Convert.ToString(data[7], 16);
+		string data0_b = Convert.ToString(data[6], 16);
+		string data1_a = Convert.ToString(data[9], 16);
+		string data1_b = Convert.ToString(data[8], 16);
+		string data2_a = Convert.ToString(data[11], 16);
+		string data2_b = Convert.ToString(data[10], 16);
+		string data3_a = Convert.ToString(data[13], 16);
+		string data3_b = Convert.ToString(data[12], 16);
 		if (data0_b.Length < 2)
 		{
 			data0_b = "0" + data0_b;
@@ -386,10 +436,10 @@ public class SerialReader : MonoBehaviour{
 
 	private void DecodeVOC(string port, byte[] data)
 	{
-		string data0_a = Convert.ToString(data[6], 16);
-		string data0_b = Convert.ToString(data[5], 16);
-		string data1_a = Convert.ToString(data[8], 16);
-		string data1_b = Convert.ToString(data[7], 16);
+		string data0_a = Convert.ToString(data[7], 16);
+		string data0_b = Convert.ToString(data[6], 16);
+		string data1_a = Convert.ToString(data[9], 16);
+		string data1_b = Convert.ToString(data[8], 16);
 		if (data0_b.Length < 2)
 		{
 			data0_b = "0" + data0_b;

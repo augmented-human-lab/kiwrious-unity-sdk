@@ -29,6 +29,12 @@ public class KiwriousSerialReader : MonoBehaviour {
             case RuntimePlatform.WindowsPlayer:
                 kiwriousReader = new WindowsKiwriousReader();
                 break;
+            case RuntimePlatform.OSXEditor:
+                kiwriousReader = new WindowsKiwriousReader();
+                break;
+            case RuntimePlatform.OSXPlayer:
+                kiwriousReader = new WindowsKiwriousReader();
+                break;
             default:
                 throw new Exception($"Platform {Application.platform} is not supported");
         }
