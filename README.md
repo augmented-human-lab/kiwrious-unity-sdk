@@ -19,11 +19,11 @@ You can use this project in two different ways
 `Serial Reader` is the place to retrive kiwrious sensor readings.
 You can use below code sniplet to access kiwrious sensor readings.
 All sensor values are processed as float values.
-- `KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName]`
+`KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName]`
 - Conductivity - `KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]`
 - Humidity - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Humidity"]`
 - Temperature - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Temperature"]`
-- Uv - `KiwriousSerialReader.instance.sensorData["Uv"].values["UV"]`
+- UV - `KiwriousSerialReader.instance.sensorData["Uv"].values["UV"]`
 - Color H - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorH"]`
 - Color S - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorS"]`
 - Color V - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorV"]`
@@ -31,7 +31,7 @@ All sensor values are processed as float values.
 
 
 ## Supported Build Platforms
-* Windows Standalone
+* PC Standalone
 * Mac Standalone
 * Android
 
