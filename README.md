@@ -1,8 +1,8 @@
 # Kiwrious Unity SDK
 
-This project enables communication between kiwrious sensors and unity editor
+This project enables communication between kiwrious sensors and unity editor.
 Project made with `unity 2018.2.11f1`. You may use higher versions but avoid opening this on lower version.
-Note: For higher versions there can be some API changes so you may need some migrations.
+- Note: For higher versions there can be some API changes so you may need some migrations.
 You can use this project in two different ways
 - Clone this entire project and build your idea on top of this demo scene
 - Download `kiwrious reader` unity package and import it to your own project
