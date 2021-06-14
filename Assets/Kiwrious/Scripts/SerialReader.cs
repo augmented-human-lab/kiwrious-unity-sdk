@@ -20,7 +20,7 @@ public class SerialReader : MonoBehaviour{
 	private const int PACKET_HEADER_BYTE = 0X0a;
 	private const int PACKET_FOOTER_BYTE = 0X0b;
 
-	public Dictionary<int, bool> sensorEvents = new Dictionary<int, bool>();
+	public Dictionary<SENSOR_TYPE, bool> sensorEvents = new Dictionary<SENSOR_TYPE, bool>();
 
 	public float voc1;
 	public float voc2;
@@ -34,6 +34,7 @@ public class SerialReader : MonoBehaviour{
 	public float color_v;
 
 	public bool listen;
+	public bool autoStart;
 	private Coroutine serialListener;
 
 	[SerializeField]
@@ -52,17 +53,48 @@ public class SerialReader : MonoBehaviour{
 	}
 
     void Start () {
-        sensorEvents[(int)SENSOR_TYPE.Conductivity] = false;
-        sensorEvents[(int)SENSOR_TYPE.Humidity] = false;
-        sensorEvents[(int)SENSOR_TYPE.VOC] = false;
-        sensorEvents[(int)SENSOR_TYPE.Uv] = false;
-        sensorEvents[(int)SENSOR_TYPE.Color] = false;
+        sensorEvents[SENSOR_TYPE.Conductivity] = false;
+        sensorEvents[SENSOR_TYPE.Humidity] = false;
+        sensorEvents[SENSOR_TYPE.VOC] = false;
+        sensorEvents[SENSOR_TYPE.Uv] = false;
+        sensorEvents[SENSOR_TYPE.Color] = false;
 		decodeMethods[SENSOR_TYPE.Conductivity] = DecodeConductivity;
         decodeMethods[SENSOR_TYPE.Humidity] = DecodeHumidity;
         decodeMethods[SENSOR_TYPE.Uv] = DecodeUV;
         decodeMethods[SENSOR_TYPE.VOC] = DecodeVOC;
         decodeMethods[SENSOR_TYPE.Color] = DecodeColor;
+		if (autoStart) {
+			StartSerialReader();
+		}
+	}
+
+	public void StartSerialReader() {
 		serialListener = StartCoroutine(ScanPorts());
+	}
+
+	public void StopSerialReader() {
+		if (serialListener != null)
+		{
+			StopCoroutine(serialListener);
+		}
+		foreach (SerialPort s in activePorts)
+		{
+			s.Close();
+		}
+		foreach (Thread reader in sensorReaders)
+		{
+			SerialPort port = new SerialPort(reader.Name);
+			port.Close();
+			Debug.Log(reader.IsAlive);
+			try
+			{
+				reader.Join();
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError(ex.Message);
+			}
+		}
 	}
 
 	IEnumerator ScanPorts() {
@@ -125,7 +157,7 @@ public class SerialReader : MonoBehaviour{
 			KiwriousSensor disconnectedSensor = connectedKiwriousSensors.Where(s => s.Port == port).FirstOrDefault();
 			Debug.Log($"{disconnectedSensor.Name} sensor disconnected!");
 			connectedKiwriousSensors.Remove(disconnectedSensor);
-			sensorEvents[disconnectedSensor.Type] = (false);
+			sensorEvents[(SENSOR_TYPE)disconnectedSensor.Type] = false;
 			SerialPort activePort = activePorts.Where(s => s.PortName == port).FirstOrDefault();
 			activePort.Close();
 			activePorts.Remove(activePort);
@@ -141,7 +173,7 @@ public class SerialReader : MonoBehaviour{
 	private void ReadSensor(string port) {
 		Debug.Log($"Read {port}");
 		SENSOR_TYPE sensorType = (SENSOR_TYPE)GetSensorTypeByPort(port);
-		sensorEvents[(int)sensorType] = (true);
+		sensorEvents[sensorType] = (true);
 		byte[] data = new byte[PACKET_SIZE];
 		SerialPort stream = new SerialPort(port, BAUD_RATE);
 		activePorts.Add(stream);
@@ -281,27 +313,8 @@ public class SerialReader : MonoBehaviour{
 	}
 
 	void OnDisable() {
-		if (serialListener != null) {
-			StopCoroutine(serialListener);
-		}
-		foreach (SerialPort s in activePorts) {
-			s.Close();
-		}
-        foreach (Thread reader in sensorReaders)
-        {
-			SerialPort port = new SerialPort(reader.Name);
-			port.Close();
-			Debug.Log(reader.IsAlive);
-            try
-            {
-                reader.Join();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex.Message);
-            }
-        }
-    }
+		StopSerialReader();
+	}
 
 	#region Decode methods
 	private void DecodeConductivity(string port, byte[] data)
