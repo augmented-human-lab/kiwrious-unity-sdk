@@ -53,16 +53,16 @@ public class SerialReader : MonoBehaviour{
 	}
 
     void Start () {
-        sensorEvents[SENSOR_TYPE.Conductivity] = false;
-        sensorEvents[SENSOR_TYPE.Humidity] = false;
+        sensorEvents[SENSOR_TYPE.EC] = false;
+        sensorEvents[SENSOR_TYPE.CLIMATE] = false;
         sensorEvents[SENSOR_TYPE.VOC] = false;
-        sensorEvents[SENSOR_TYPE.Uv] = false;
-        sensorEvents[SENSOR_TYPE.Color] = false;
-		decodeMethods[SENSOR_TYPE.Conductivity] = DecodeConductivity;
-        decodeMethods[SENSOR_TYPE.Humidity] = DecodeHumidity;
-        decodeMethods[SENSOR_TYPE.Uv] = DecodeUV;
+        sensorEvents[SENSOR_TYPE.LIGHT] = false;
+        sensorEvents[SENSOR_TYPE.COLOR] = false;
+		decodeMethods[SENSOR_TYPE.EC] = DecodeConductivity;
+        decodeMethods[SENSOR_TYPE.CLIMATE] = DecodeHumidity;
+        decodeMethods[SENSOR_TYPE.LIGHT] = DecodeUV;
         decodeMethods[SENSOR_TYPE.VOC] = DecodeVOC;
-        decodeMethods[SENSOR_TYPE.Color] = DecodeColor;
+        decodeMethods[SENSOR_TYPE.COLOR] = DecodeColor;
 		if (autoStart) {
 			StartSerialReader();
 		}
@@ -79,13 +79,12 @@ public class SerialReader : MonoBehaviour{
 		}
 		foreach (SerialPort s in activePorts)
 		{
-			s.Close();
+			if (s != null && s.IsOpen) {
+				s.Close();
+			}
 		}
 		foreach (Thread reader in sensorReaders)
 		{
-			SerialPort port = new SerialPort(reader.Name);
-			port.Close();
-			Debug.Log(reader.IsAlive);
 			try
 			{
 				reader.Join();

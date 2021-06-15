@@ -15,7 +15,7 @@ public class WindowsKiwriousReader : KiwriousReader {
     {
         SensorData data = new SensorData
         {
-            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.Conductivity],
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.EC],
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
@@ -43,7 +43,7 @@ public class WindowsKiwriousReader : KiwriousReader {
     {
         SensorData data = new SensorData
         {
-            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.Uv],
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.LIGHT],
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
@@ -58,7 +58,7 @@ public class WindowsKiwriousReader : KiwriousReader {
     {
         SensorData data = new SensorData
         {
-            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.Humidity],
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.CLIMATE],
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {
@@ -73,7 +73,7 @@ public class WindowsKiwriousReader : KiwriousReader {
     {
         SensorData data = new SensorData
         {
-            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.Color],
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.COLOR],
             status = (int)SENSOR_STATUS.READY,
             values = new Dictionary<string, float>
         {

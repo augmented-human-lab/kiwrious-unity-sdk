@@ -50,11 +50,11 @@ public class KiwriousSerialReader : MonoBehaviour {
 
     void Update()
     {
-        sensorData[GetSensorName(SENSOR_TYPE.Conductivity)] = kiwriousReader.GetConductivity();
+        sensorData[GetSensorName(SENSOR_TYPE.EC)] = kiwriousReader.GetConductivity();
         sensorData[GetSensorName(SENSOR_TYPE.VOC)] = kiwriousReader.GetVOC();
-        sensorData[GetSensorName(SENSOR_TYPE.Uv)] = kiwriousReader.GetUVLux();
-        sensorData[GetSensorName(SENSOR_TYPE.Humidity)] = kiwriousReader.GetHumidityTemperature();
-        sensorData[GetSensorName(SENSOR_TYPE.Color)] = kiwriousReader.GetColor();
+        sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
+        sensorData[GetSensorName(SENSOR_TYPE.CLIMATE)] = kiwriousReader.GetHumidityTemperature();
+        sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
     }
 
     void Start () {

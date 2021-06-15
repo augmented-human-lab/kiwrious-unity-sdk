@@ -938,7 +938,7 @@ GameObject:
   - component: {fileID: 1036267838}
   - component: {fileID: 1036267841}
   m_Layer: 5
-  m_Name: VOC.VOC
+  m_Name: VOC.voc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1026,7 +1026,7 @@ GameObject:
   - component: {fileID: 1100895343}
   - component: {fileID: 1100895346}
   m_Layer: 5
-  m_Name: Uv.Lux
+  m_Name: LIGHT.lux
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1114,7 +1114,7 @@ GameObject:
   - component: {fileID: 1229770364}
   - component: {fileID: 1229770367}
   m_Layer: 5
-  m_Name: Color.ColorV
+  m_Name: COLOR.color_v
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1380,7 +1380,7 @@ GameObject:
   - component: {fileID: 1251665852}
   - component: {fileID: 1251665855}
   m_Layer: 5
-  m_Name: Humidity.Humidity
+  m_Name: CLIMATE.humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1468,7 +1468,7 @@ GameObject:
   - component: {fileID: 1270194177}
   - component: {fileID: 1270194180}
   m_Layer: 5
-  m_Name: Conductivity.Conductivity
+  m_Name: EC.conductivity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1645,7 +1645,7 @@ GameObject:
   - component: {fileID: 1358233482}
   - component: {fileID: 1358233485}
   m_Layer: 5
-  m_Name: Humidity.Temperature
+  m_Name: CLIMATE.temperature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1822,7 +1822,7 @@ GameObject:
   - component: {fileID: 1544488952}
   - component: {fileID: 1544488954}
   m_Layer: 5
-  m_Name: Color.ColorS
+  m_Name: COLOR.color_s
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1910,7 +1910,7 @@ GameObject:
   - component: {fileID: 1573897019}
   - component: {fileID: 1573897021}
   m_Layer: 5
-  m_Name: Color.ColorH
+  m_Name: COLOR.color_h
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2162,7 +2162,7 @@ GameObject:
   - component: {fileID: 1846443324}
   - component: {fileID: 1846443327}
   m_Layer: 5
-  m_Name: Uv.UV
+  m_Name: LIGHT.uv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
