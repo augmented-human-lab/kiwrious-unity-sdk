@@ -7,9 +7,17 @@ using static Assets.Kiwrious.Scripts.Constants;
 public class AndroidKiwriousReader : KiwriousReader
 {
 
-    private const string pluginName = "org.ahlab.kiwrious.android.Plugin";
+    //private const string pluginName = "org.ahlab.kiwrious.android.Plugin";
     private static AndroidJavaClass _pluginClass;
     private static AndroidJavaObject _pluginInstance;
+
+	private const string applicationName = "org.ahlab.kiwrious.android.Application";
+	private static AndroidJavaObject _applicatonObject;
+
+	//private const string appName = "com.unity3d.player.UnityPlayer";
+	private static AndroidJavaClass _unityClass;
+	private static AndroidJavaObject _unityInstance;
+	private static AndroidJavaObject _unityContext;
 
 	public static AndroidJavaClass PluginClass
 	{
@@ -17,7 +25,7 @@ public class AndroidKiwriousReader : KiwriousReader
 		{
 			if (_pluginClass == null)
 			{
-				_pluginClass = new AndroidJavaClass(pluginName);
+				_pluginClass = new AndroidJavaClass("org.ahlab.kiwrious.android.Plugin");
 			}
 			return _pluginClass;
 		}
@@ -29,7 +37,16 @@ public class AndroidKiwriousReader : KiwriousReader
 		{
 			if (_pluginInstance == null)
 			{
+				
+				_unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+				_unityInstance = _unityClass.GetStatic<AndroidJavaObject>("currentActivity");
+				_unityContext = _unityInstance.Call<AndroidJavaObject>("getApplicationContext");
+				
+				_applicatonObject = new AndroidJavaObject("org.ahlab.kiwrious.android.Application", _unityContext);
+				
 				_pluginInstance = PluginClass.CallStatic<AndroidJavaObject>("getInstance");
+				_pluginInstance.Call("initiateReader");
+				_pluginInstance.Call<bool>("startSerialReader");
 			}
 			return _pluginInstance;
 		}

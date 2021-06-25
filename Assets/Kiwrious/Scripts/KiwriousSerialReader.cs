@@ -17,31 +17,40 @@ public class KiwriousSerialReader : MonoBehaviour {
 
     void Awake()
     {
-        instance = this;
-        switch (Application.platform)
+        debug_log = GameObject.Find("debug_log").GetComponent<Text>();
+        try
         {
-            case RuntimePlatform.Android:
-                kiwriousReader = new AndroidKiwriousReader();
-                break;
-            case RuntimePlatform.WindowsEditor:
-                kiwriousReader = new WindowsKiwriousReader();
-                break;
-            case RuntimePlatform.WindowsPlayer:
-                kiwriousReader = new WindowsKiwriousReader();
-                break;
-            case RuntimePlatform.OSXEditor:
-                kiwriousReader = new WindowsKiwriousReader();
-                break;
-            case RuntimePlatform.OSXPlayer:
-                kiwriousReader = new WindowsKiwriousReader();
-                break;
-            default:
-                throw new Exception($"Platform {Application.platform} is not supported");
+            instance = this;
+            switch (Application.platform)
+            {
+                case RuntimePlatform.Android:
+                    debug_log.text = "creating android reader";
+                    kiwriousReader = new AndroidKiwriousReader();
+                    break;
+                case RuntimePlatform.WindowsEditor:
+                    kiwriousReader = new WindowsKiwriousReader();
+                    break;
+                case RuntimePlatform.WindowsPlayer:
+                    kiwriousReader = new WindowsKiwriousReader();
+                    break;
+                case RuntimePlatform.OSXEditor:
+                    kiwriousReader = new WindowsKiwriousReader();
+                    break;
+                case RuntimePlatform.OSXPlayer:
+                    kiwriousReader = new WindowsKiwriousReader();
+                    break;
+                default:
+                    throw new Exception($"Platform {Application.platform} is not supported");
+            }
+            foreach (SENSOR_TYPE sensorType in Enum.GetValues(typeof(SENSOR_TYPE)))
+            {
+                sensorData[GetSensorName(sensorType)] = new SensorData();
+            }
         }
-        foreach (SENSOR_TYPE sensorType in Enum.GetValues(typeof(SENSOR_TYPE)))
-        {
-            sensorData[GetSensorName(sensorType)] = new SensorData();
+        catch (Exception e) {
+            debug_log.text = e.Message;
         }
+        
     }
 
     private string GetSensorName(SENSOR_TYPE type) {
@@ -50,11 +59,18 @@ public class KiwriousSerialReader : MonoBehaviour {
 
     void Update()
     {
-        sensorData[GetSensorName(SENSOR_TYPE.EC)] = kiwriousReader.GetConductivity();
-        sensorData[GetSensorName(SENSOR_TYPE.VOC)] = kiwriousReader.GetVOC();
-        sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
-        sensorData[GetSensorName(SENSOR_TYPE.CLIMATE)] = kiwriousReader.GetHumidityTemperature();
-        sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
+        try {
+            debug_log.text = "conductivity value: " + kiwriousReader.GetConductivity().values[OBSERVABLES.CONDUCTIVITY];
+            sensorData[GetSensorName(SENSOR_TYPE.EC)] = kiwriousReader.GetConductivity();
+            sensorData[GetSensorName(SENSOR_TYPE.VOC)] = kiwriousReader.GetVOC();
+            sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
+            sensorData[GetSensorName(SENSOR_TYPE.CLIMATE)] = kiwriousReader.GetHumidityTemperature();
+            sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
+        }
+        catch (Exception ex) {
+            debug_log.text = ex.Message;
+        }
+       
     }
 
     void Start () {
