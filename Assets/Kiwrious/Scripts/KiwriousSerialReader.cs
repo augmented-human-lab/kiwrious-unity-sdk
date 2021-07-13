@@ -24,7 +24,6 @@ public class KiwriousSerialReader : MonoBehaviour {
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
-                    debug_log.text = "creating android reader";
                     kiwriousReader = new AndroidKiwriousReader();
                     break;
                 case RuntimePlatform.WindowsEditor:
@@ -60,7 +59,6 @@ public class KiwriousSerialReader : MonoBehaviour {
     void Update()
     {
         try {
-            debug_log.text = "conductivity value: " + kiwriousReader.GetConductivity().values[OBSERVABLES.CONDUCTIVITY];
             sensorData[GetSensorName(SENSOR_TYPE.EC)] = kiwriousReader.GetConductivity();
             sensorData[GetSensorName(SENSOR_TYPE.VOC)] = kiwriousReader.GetVOC();
             sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
@@ -72,10 +70,5 @@ public class KiwriousSerialReader : MonoBehaviour {
         }
        
     }
-
-    void Start () {
-        debug_log = GameObject.Find("debug_log").GetComponent<Text>();
-    }
-
 
 }

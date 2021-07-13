@@ -58,10 +58,10 @@ public class AndroidKiwriousReader : KiwriousReader
 
 	public override SensorData GetConductivity()
 	{
-		float conductivity = callNative("getConductivity");
+		float conductivity = PluginInstance.Call<float>("getConductivity");
 		SensorData data = new SensorData
 		{
-			isOnline = getNative("conductivity_online"),
+			isOnline = getNative("isConductivityOnline"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
@@ -73,10 +73,10 @@ public class AndroidKiwriousReader : KiwriousReader
 
 	public override SensorData GetVOC()
 	{
-		float voc = callNative("getVoc");
+		float voc = PluginInstance.Call<int>("getVoc");
 		SensorData data = new SensorData
 		{
-			isOnline = getNative("voc_online"),
+			isOnline = getNative("isVocOnline"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
@@ -88,11 +88,11 @@ public class AndroidKiwriousReader : KiwriousReader
 
     public override SensorData GetUVLux()
     {
-		float uv = callNative("getUV");
-		float lux = callNative("getLux");
+		float uv = PluginInstance.Call<float>("getUV");
+		float lux = PluginInstance.Call<float>("getLux");
 		SensorData data = new SensorData
 		{
-			isOnline = getNative("uv_lux_online"),
+			isOnline = getNative("isUvOnline"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
@@ -105,11 +105,11 @@ public class AndroidKiwriousReader : KiwriousReader
 
     public override SensorData GetHumidityTemperature()
     {
-		float humidity = callNative("getHumidity");
-		float temperature = callNative("getTemperature");
+		float humidity = PluginInstance.Call<float>("getHumidity");
+		float temperature = PluginInstance.Call<float>("getTemperature");
 		SensorData data = new SensorData
 		{
-			isOnline = getNative("humidity_temperature_online"),
+			isOnline = getNative("isHumidityOnline"),
 			status = (int)SENSOR_STATUS.READY,
 			values = new Dictionary<string, float>
 		{
@@ -122,21 +122,22 @@ public class AndroidKiwriousReader : KiwriousReader
 
     public override SensorData GetColor()
     {
-		float color_h = callNative("getColorH");
-		float color_s = callNative("getColorS");
-		float color_v = callNative("getColorV");
-		SensorData data = new SensorData
-		{
-			isOnline = getNative("color_online"),
-			status = (int)SENSOR_STATUS.READY,
-			values = new Dictionary<string, float>
-		{
-			{ OBSERVABLES.COLOR_H, color_h },
-			{ OBSERVABLES.COLOR_S, color_s },
-			{ OBSERVABLES.COLOR_V, color_v }
-		}
-		};
-		return data;
+		//float color_h = callNative("getColorH");
+		//float color_s = callNative("getColorS");
+		//float color_v = callNative("getColorV");
+		//SensorData data = new SensorData
+		//{
+		//	isOnline = getNative("color_online"),
+		//	status = (int)SENSOR_STATUS.READY,
+		//	values = new Dictionary<string, float>
+		//{
+		//	{ OBSERVABLES.COLOR_H, color_h },
+		//	{ OBSERVABLES.COLOR_S, color_s },
+		//	{ OBSERVABLES.COLOR_V, color_v }
+		//}
+		//};
+		return new SensorData();
+		//return data;
 	}
 
 	private float callNative(string methodName) {
