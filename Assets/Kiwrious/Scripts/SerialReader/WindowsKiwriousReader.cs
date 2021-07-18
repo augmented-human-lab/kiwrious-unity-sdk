@@ -2,16 +2,16 @@
 using kiwrious;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Kiwrious.Scripts.Constants;
+using static Assets.Kiwrious.Scripts.Constants; 
 
-public class WindowsKiwriousReader : KiwriousReader {
+public class WindowsKiwriousReader : IKiwriousReader {
 
     public WindowsKiwriousReader()
     {
         Debug.Log("Windows reader initiated");
     }
 
-    public override SensorData GetConductivity()
+    public SensorData GetConductivity()
     {
         SensorData data = new SensorData
         {
@@ -25,7 +25,7 @@ public class WindowsKiwriousReader : KiwriousReader {
         return data;
     }
 
-    public override SensorData GetVOC()
+    public SensorData GetVOC()
     {
         SensorData data = new SensorData
         {
@@ -39,7 +39,7 @@ public class WindowsKiwriousReader : KiwriousReader {
         return data;
     }
 
-    public override SensorData GetUVLux()
+    public SensorData GetUVLux()
     {
         SensorData data = new SensorData
         {
@@ -54,7 +54,7 @@ public class WindowsKiwriousReader : KiwriousReader {
         return data;
     }
 
-    public override SensorData GetHumidityTemperature()
+    public SensorData GetHumidityTemperature()
     {
         SensorData data = new SensorData
         {
@@ -69,7 +69,7 @@ public class WindowsKiwriousReader : KiwriousReader {
         return data;
     }
 
-    public override SensorData GetColor()
+    public SensorData GetColor()
     {
         SensorData data = new SensorData
         {
@@ -83,5 +83,15 @@ public class WindowsKiwriousReader : KiwriousReader {
         }
         };
         return data;
+    }
+
+    public SensorData GetHeartRate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public SensorData GetBodyTemperature()
+    {
+        throw new System.NotImplementedException();
     }
 }

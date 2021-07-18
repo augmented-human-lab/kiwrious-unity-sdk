@@ -173,7 +173,6 @@ public class SerialReader : MonoBehaviour{
 		Debug.Log($"Read {port}");
 		SENSOR_TYPE sensorType = (SENSOR_TYPE)GetSensorTypeByPort(port);
 		sensorEvents[sensorType] = (true);
-		byte[] data = new byte[PACKET_SIZE];
 		SerialPort stream = new SerialPort(port, BAUD_RATE);
 		activePorts.Add(stream);
 		if (!stream.IsOpen)
@@ -224,22 +223,12 @@ public class SerialReader : MonoBehaviour{
 				foreach (byte b in packet) {
 					temp += $"{b} ";
 				}
-				Debug.Log(temp);
 				decodeMethods[sensorType](port, packet);
 			}
 			catch (Exception ex) {
 				Debug.LogError(ex.Message);
 				stream.Close();
 			}
-			// end new reading method
-			//try {
-			//	stream.Read(data, 0, PACKET_SIZE);
-			//	decodeMethods[sensorType](port, data);
-			//}
-			//catch (Exception ex) {
-			//	Debug.LogError(ex.Message);
-			//	stream.Close();
-			//}
 		}
 		stream.Close();
 

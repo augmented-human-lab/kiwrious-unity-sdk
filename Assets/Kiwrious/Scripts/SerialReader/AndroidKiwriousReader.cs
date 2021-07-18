@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Kiwrious.Scripts.Constants;
 
-public class AndroidKiwriousReader : KiwriousReader
+public class AndroidKiwriousReader : IKiwriousReader
 {
 
     //private const string pluginName = "org.ahlab.kiwrious.android.Plugin";
@@ -56,7 +56,7 @@ public class AndroidKiwriousReader : KiwriousReader
 		Debug.Log("Android reader initiated");
 	}
 
-	public override SensorData GetConductivity()
+	public SensorData GetConductivity()
 	{
 		float conductivity = PluginInstance.Call<float>("getConductivity");
 		SensorData data = new SensorData
@@ -71,7 +71,7 @@ public class AndroidKiwriousReader : KiwriousReader
 		return data;
 	}
 
-	public override SensorData GetVOC()
+	public SensorData GetVOC()
 	{
 		float voc = PluginInstance.Call<int>("getVoc");
 		SensorData data = new SensorData
@@ -86,7 +86,7 @@ public class AndroidKiwriousReader : KiwriousReader
 		return data;
 	}
 
-    public override SensorData GetUVLux()
+    public SensorData GetUVLux()
     {
 		float uv = PluginInstance.Call<float>("getUV");
 		float lux = PluginInstance.Call<float>("getLux");
@@ -103,7 +103,7 @@ public class AndroidKiwriousReader : KiwriousReader
 		return data;
 	}
 
-    public override SensorData GetHumidityTemperature()
+    public SensorData GetHumidityTemperature()
     {
 		float humidity = PluginInstance.Call<float>("getHumidity");
 		float temperature = PluginInstance.Call<float>("getTemperature");
@@ -120,7 +120,7 @@ public class AndroidKiwriousReader : KiwriousReader
 		return data;
 	}
 
-    public override SensorData GetColor()
+    public SensorData GetColor()
     {
 		//float color_h = callNative("getColorH");
 		//float color_s = callNative("getColorS");
@@ -149,4 +149,13 @@ public class AndroidKiwriousReader : KiwriousReader
 		return PluginInstance.Get<bool>(propertyName);
 	}
 
+    public SensorData GetHeartRate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public SensorData GetBodyTemperature()
+    {
+        throw new System.NotImplementedException();
+    }
 }

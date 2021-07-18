@@ -63,7 +63,7 @@ MonoBehaviour:
   color_s: 0
   color_v: 0
   listen: 1
-  autoStart: 1
+  autoStart: 0
   connectedSerialPorts: []
   kiwriousSensorRegistry: []
   connectedKiwriousSensors: []
@@ -78,3 +78,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c71030731ad26449bc41db3a0c2857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readersInitiated: 0

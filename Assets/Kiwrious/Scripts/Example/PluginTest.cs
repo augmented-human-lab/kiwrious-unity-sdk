@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Kiwrious;
 
 public class PluginTest : MonoBehaviour {
 
@@ -11,12 +10,12 @@ public class PluginTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//KiwriousReader.Instance.StartReader();
+		//IKiwriousReader.Instance.StartReader();
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//conductivity = KiwriousReader.Instance.conductivity;
+		//conductivity = IKiwriousReader.Instance.conductivity;
 	}
 }

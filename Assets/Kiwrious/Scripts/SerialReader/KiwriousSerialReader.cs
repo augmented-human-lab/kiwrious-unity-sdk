@@ -8,19 +8,24 @@ using static Assets.Kiwrious.Scripts.Constants;
 
 public class KiwriousSerialReader : MonoBehaviour {
 
-    private KiwriousReader kiwriousReader;
+    private IKiwriousReader kiwriousReader;
     public static KiwriousSerialReader instance;
 
     public Dictionary<string, SensorData> sensorData = new Dictionary<string, SensorData>();
 
     Text debug_log;
+    public bool readersInitiated;
 
     void Awake()
     {
+        instance = this;
         debug_log = GameObject.Find("debug_log").GetComponent<Text>();
+        InitiatePlatformReaders();
+    }
+
+    private void InitiatePlatformReaders() {
         try
         {
-            instance = this;
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
@@ -43,13 +48,15 @@ public class KiwriousSerialReader : MonoBehaviour {
             }
             foreach (SENSOR_TYPE sensorType in Enum.GetValues(typeof(SENSOR_TYPE)))
             {
+                // initiate sensor data objects for each sensor
                 sensorData[GetSensorName(sensorType)] = new SensorData();
             }
+            readersInitiated = true;
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             debug_log.text = e.Message;
         }
-        
     }
 
     private string GetSensorName(SENSOR_TYPE type) {
@@ -58,17 +65,20 @@ public class KiwriousSerialReader : MonoBehaviour {
 
     void Update()
     {
-        try {
-            sensorData[GetSensorName(SENSOR_TYPE.EC)] = kiwriousReader.GetConductivity();
-            sensorData[GetSensorName(SENSOR_TYPE.VOC)] = kiwriousReader.GetVOC();
-            sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
-            sensorData[GetSensorName(SENSOR_TYPE.CLIMATE)] = kiwriousReader.GetHumidityTemperature();
-            sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
+        if (readersInitiated) {
+            try
+            {
+                sensorData[GetSensorName(SENSOR_TYPE.EC)] = kiwriousReader.GetConductivity();
+                sensorData[GetSensorName(SENSOR_TYPE.VOC)] = kiwriousReader.GetVOC();
+                sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
+                sensorData[GetSensorName(SENSOR_TYPE.CLIMATE)] = kiwriousReader.GetHumidityTemperature();
+                sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
+            }
+            catch (Exception ex)
+            {
+                debug_log.text = ex.Message;
+            }
         }
-        catch (Exception ex) {
-            debug_log.text = ex.Message;
-        }
-       
     }
 
 }
