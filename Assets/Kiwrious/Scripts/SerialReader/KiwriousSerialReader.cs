@@ -23,6 +23,14 @@ public class KiwriousSerialReader : MonoBehaviour {
         InitiatePlatformReaders();
     }
 
+    public void StartSerialReader() {
+        SerialReader.instance.StartSerialReader();
+    }
+
+    public void StopSerialReader() {
+        SerialReader.instance.StopSerialReader();
+    }
+
     private void InitiatePlatformReaders() {
         try
         {
