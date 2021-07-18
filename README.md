@@ -15,9 +15,18 @@ You can use this project in two different ways
 - Open Kiwrious > Scenes > `KIwrious Sensors Demo.unity`
 - Run the project, Plugin any kiwrious sensor and observe readings
 
+## Start Reader
+- Add `Serial Reader` prefab from `Assets/Kiwrious/Prefabs`
+```csharp
+KiwriousSerialReader.instance.StartSerialReader();
+```
+## Stop Reader
+```csharp
+KiwriousSerialReader.instance.StopSerialReader();
+```
+
 ## Read Values
-`Serial Reader` is the place to retrive kiwrious sensor readings.
-You can use below code sniplet to access kiwrious sensor readings.
+
 All sensor values are processed as float values.
 `KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName]`
 - Conductivity - `KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]`
