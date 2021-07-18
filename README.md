@@ -2,7 +2,7 @@
 
 This project enables communication between kiwrious sensors and unity editor.
 Project made with `unity 2018.2.11f1`. You may use higher versions but avoid opening this on lower version.
-- Note: For higher versions there can be some API changes so you may need some migrations.
+
 You can use this project in two different ways
 - Clone this entire project and build your idea on top of this demo scene
 - Download `kiwrious reader` unity package and import it to your own project
@@ -15,20 +15,33 @@ You can use this project in two different ways
 - Open Kiwrious > Scenes > `KIwrious Sensors Demo.unity`
 - Run the project, Plugin any kiwrious sensor and observe readings
 
-## Read Values
-`Serial Reader` is the place to retrive kiwrious sensor readings.
-You can use below code sniplet to access kiwrious sensor readings.
-All sensor values are processed as float values.
-`KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName]`
-- Conductivity - `KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]`
-- Humidity - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Humidity"]`
-- Temperature - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Temperature"]`
-- UV - `KiwriousSerialReader.instance.sensorData["Uv"].values["UV"]`
-- Color H - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorH"]`
-- Color S - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorS"]`
-- Color V - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorV"]`
-- VOC - `KiwriousSerialReader.instance.sensorData["VOC"].values["VOC"]`
+## Start Reader
+- Add `Serial Reader` prefab from `Assets/Kiwrious/Prefabs`
+```csharp
+KiwriousSerialReader.instance.StartSerialReader();
+```
+## Stop Reader
+```csharp
+KiwriousSerialReader.instance.StopSerialReader();
+```
 
+## Read Values
+
+All sensor values are processed as float values.
+```csharp
+KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName];
+```
+
+```csharp
+  KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]
+  KiwriousSerialReader.instance.sensorData["Humidity"].values["Humidity"]
+  KiwriousSerialReader.instance.sensorData["Humidity"].values["Temperature"]
+  KiwriousSerialReader.instance.sensorData["Uv"].values["UV"]
+  KiwriousSerialReader.instance.sensorData["Color"].values["ColorH"]
+  KiwriousSerialReader.instance.sensorData["Color"].values["ColorS"]
+  KiwriousSerialReader.instance.sensorData["Color"].values["ColorV"]
+  KiwriousSerialReader.instance.sensorData["VOC"].values["VOC"]
+```
 
 ## Supported Build Platforms
 * PC Standalone
