@@ -28,7 +28,20 @@ KiwriousSerialReader.instance.StopSerialReader();
 ## Read Values
 
 All sensor values are processed as float values.
-`KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName]`
+```csharp
+KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName];
+```
+
+```csharp
+  - Conductivity - `KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]`
+  - Humidity - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Humidity"]`
+  - Temperature - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Temperature"]`
+  - UV - `KiwriousSerialReader.instance.sensorData["Uv"].values["UV"]`
+  - Color H - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorH"]`
+  - Color S - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorS"]`
+  - Color V - `KiwriousSerialReader.instance.sensorData["Color"].values["ColorV"]`
+  - VOC - `KiwriousSerialReader.instance.sensorData["VOC"].values["VOC"]`
+```
 - Conductivity - `KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]`
 - Humidity - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Humidity"]`
 - Temperature - `KiwriousSerialReader.instance.sensorData["Humidity"].values["Temperature"]`
