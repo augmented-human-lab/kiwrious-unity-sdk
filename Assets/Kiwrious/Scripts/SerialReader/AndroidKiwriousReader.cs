@@ -7,17 +7,9 @@ using static Assets.Kiwrious.Scripts.Constants;
 public class AndroidKiwriousReader : IKiwriousReader
 {
 
-    //private const string pluginName = "org.ahlab.kiwrious.android.Plugin";
+    private const string pluginName = "org.ahlab.kiwrious.android.Plugin";
     private static AndroidJavaClass _pluginClass;
     private static AndroidJavaObject _pluginInstance;
-
-	private const string applicationName = "org.ahlab.kiwrious.android.Application";
-	private static AndroidJavaObject _applicatonObject;
-
-	//private const string appName = "com.unity3d.player.UnityPlayer";
-	private static AndroidJavaClass _unityClass;
-	private static AndroidJavaObject _unityInstance;
-	private static AndroidJavaObject _unityContext;
 
 	public static AndroidJavaClass PluginClass
 	{
@@ -25,7 +17,7 @@ public class AndroidKiwriousReader : IKiwriousReader
 		{
 			if (_pluginClass == null)
 			{
-				_pluginClass = new AndroidJavaClass("org.ahlab.kiwrious.android.Plugin");
+				_pluginClass = new AndroidJavaClass(pluginName);
 			}
 			return _pluginClass;
 		}
@@ -37,19 +29,18 @@ public class AndroidKiwriousReader : IKiwriousReader
 		{
 			if (_pluginInstance == null)
 			{
-				
-				_unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-				_unityInstance = _unityClass.GetStatic<AndroidJavaObject>("currentActivity");
-				_unityContext = _unityInstance.Call<AndroidJavaObject>("getApplicationContext");
-				
-				_applicatonObject = new AndroidJavaObject("org.ahlab.kiwrious.android.Application", _unityContext);
-				
-				_pluginInstance = PluginClass.CallStatic<AndroidJavaObject>("getInstance");
-				_pluginInstance.Call("initiateReader");
+				_pluginInstance = PluginClass.CallStatic<AndroidJavaObject>("getInstance", getApplicationContext());
 				_pluginInstance.Call<bool>("startSerialReader");
 			}
 			return _pluginInstance;
 		}
+	}
+
+	private static AndroidJavaObject getApplicationContext() {
+		AndroidJavaClass _unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject _unityInstance = _unityClass.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaObject _unityContext = _unityInstance.Call<AndroidJavaObject>("getApplicationContext");
+		return _unityContext;
 	}
 
 	public AndroidKiwriousReader() {
