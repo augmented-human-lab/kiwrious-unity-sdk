@@ -149,4 +149,9 @@ public class AndroidKiwriousReader : IKiwriousReader
     {
         throw new System.NotImplementedException();
     }
+
+	public SensorData GetBodyTemperature2()
+	{
+		throw new System.NotImplementedException();
+	}
 }

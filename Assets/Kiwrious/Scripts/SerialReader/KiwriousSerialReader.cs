@@ -81,10 +81,12 @@ public class KiwriousSerialReader : MonoBehaviour {
                 sensorData[GetSensorName(SENSOR_TYPE.LIGHT)] = kiwriousReader.GetUVLux();
                 sensorData[GetSensorName(SENSOR_TYPE.CLIMATE)] = kiwriousReader.GetHumidityTemperature();
                 sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
+                sensorData[GetSensorName(SENSOR_TYPE.THERMAL)] = kiwriousReader.GetBodyTemperature();
+                sensorData[GetSensorName(SENSOR_TYPE.THERMAL2)] = kiwriousReader.GetBodyTemperature2();
             }
             catch (Exception ex)
             {
-                debug_log.text = ex.Message;
+                //debug_log.text = ex.Message;
             }
         }
     }

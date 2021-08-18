@@ -24,5 +24,8 @@ namespace kiwrious {
 
 		SensorData GetBodyTemperature();
 
+
+		SensorData GetBodyTemperature2();
+
 	}
 }

@@ -92,6 +92,31 @@ public class WindowsKiwriousReader : IKiwriousReader {
 
     public SensorData GetBodyTemperature()
     {
-        throw new System.NotImplementedException();
+        SensorData data = new SensorData
+        {
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.THERMAL],
+            status = (int)SENSOR_STATUS.READY,
+            values = new Dictionary<string, float>
+        {
+            { OBSERVABLES.A_TEMPERATURE, SerialReader.instance.a_temperature },
+            { OBSERVABLES.D_TEMPERATURE, SerialReader.instance.d_temperature }
+        }
+        };
+        return data;
+    }
+
+    public SensorData GetBodyTemperature2()
+    {
+        SensorData data = new SensorData
+        {
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.THERMAL2],
+            status = (int)SENSOR_STATUS.READY,
+            values = new Dictionary<string, float>
+        {
+            { OBSERVABLES.A_TEMPERATURE, SerialReader.instance.a_temperature },
+            { OBSERVABLES.D_TEMPERATURE, SerialReader.instance.d_temperature }
+        }
+        };
+        return data;
     }
 }

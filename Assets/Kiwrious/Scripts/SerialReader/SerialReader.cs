@@ -63,6 +63,7 @@ public class SerialReader : MonoBehaviour{
         sensorEvents[SENSOR_TYPE.COLOR] = false;
 		sensorEvents[SENSOR_TYPE.CARDIO] = false;
 		sensorEvents[SENSOR_TYPE.THERMAL] = false;
+		sensorEvents[SENSOR_TYPE.THERMAL2] = false;
 		decodeMethods[SENSOR_TYPE.EC] = DecodeConductivity;
         decodeMethods[SENSOR_TYPE.CLIMATE] = DecodeHumidity;
         decodeMethods[SENSOR_TYPE.LIGHT] = DecodeUV;
