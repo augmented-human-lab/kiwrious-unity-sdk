@@ -20,6 +20,7 @@ public class SerialReader : MonoBehaviour{
 	private const int PACKET_HEADER_BYTE = 0X0a;
 	private const int PACKET_FOOTER_BYTE = 0X0b;
 
+
 	public Dictionary<SENSOR_TYPE, bool> sensorEvents = new Dictionary<SENSOR_TYPE, bool>();
 
 	public float voc1;
@@ -32,6 +33,8 @@ public class SerialReader : MonoBehaviour{
 	public float color_h;
 	public float color_s;
 	public float color_v;
+	public float a_temperature;
+	public float d_temperature;
 
 	public bool listen;
 	public bool autoStart;
@@ -58,11 +61,16 @@ public class SerialReader : MonoBehaviour{
         sensorEvents[SENSOR_TYPE.VOC] = false;
         sensorEvents[SENSOR_TYPE.LIGHT] = false;
         sensorEvents[SENSOR_TYPE.COLOR] = false;
+		sensorEvents[SENSOR_TYPE.CARDIO] = false;
+		sensorEvents[SENSOR_TYPE.THERMAL] = false;
 		decodeMethods[SENSOR_TYPE.EC] = DecodeConductivity;
         decodeMethods[SENSOR_TYPE.CLIMATE] = DecodeHumidity;
         decodeMethods[SENSOR_TYPE.LIGHT] = DecodeUV;
         decodeMethods[SENSOR_TYPE.VOC] = DecodeVOC;
         decodeMethods[SENSOR_TYPE.COLOR] = DecodeColor;
+		decodeMethods[SENSOR_TYPE.CARDIO] = DecodeCardio;
+		decodeMethods[SENSOR_TYPE.THERMAL] = DecodeThermal;
+		decodeMethods[SENSOR_TYPE.THERMAL2] = DecodeThermal2;
 		if (autoStart) {
 			StartSerialReader();
 		}
@@ -434,6 +442,32 @@ public class SerialReader : MonoBehaviour{
         color_s = (float)Math.Floor(g);
         color_v = (float)Math.Floor(b);
     }
+
+	private void DecodeCardio(string port, byte[] data) {
+		tempx = data;
+		uint data0 = BitConverter.ToUInt32(data.Skip(6).Take(4).ToArray(), 0);
+		uint data1 = BitConverter.ToUInt32(data.Skip(10).Take(4).ToArray(), 0);
+		uint data2 = BitConverter.ToUInt32(data.Skip(14).Take(4).ToArray(), 0);
+		uint data3 = BitConverter.ToUInt32(data.Skip(18).Take(4).ToArray(), 0);
+	}
+	public byte[] tempx = new byte[26];
+
+	private void DecodeThermal(string port, byte[] data)
+	{
+		
+		d_temperature = BitConverter.ToInt16(data.Skip(6).Take(2).ToArray(), 0) / 100;
+		a_temperature = BitConverter.ToInt16(data.Skip(8).Take(2).ToArray(), 0) / 100;
+	}
+
+	private void DecodeThermal2(string port, byte[] data)
+	{
+		a_temperature = BitConverter.ToInt16(data.Skip(6).Take(2).ToArray(), 0) / 100;
+		ushort x = BitConverter.ToUInt16(data.Skip(8).Take(2).ToArray(), 0);
+		float a = BitConverter.ToSingle(data.Skip(10).Take(4).ToArray(), 0);
+		float b = BitConverter.ToSingle(data.Skip(14).Take(4).ToArray(), 0);
+		float c = BitConverter.ToSingle(data.Skip(18).Take(4).ToArray(), 0);
+		d_temperature = (float)(Math.Round(((a * Math.Pow(x, 2)) / Math.Pow(10, 5) + b * x + c)));
+	}
 
 	private void DecodeVOC(string port, byte[] data)
 	{

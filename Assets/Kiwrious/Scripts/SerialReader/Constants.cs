@@ -11,13 +11,14 @@
 		public enum SENSOR_TYPE
 		{
 			LIGHT = 1,
+			THERMAL = 2,
 			COLOR = 3,
 			EC = 4,
-			CLIMATE = 7,
+			CARDIO = 5,
 			VOC = 6,
-			THERMAL = 2,
+			CLIMATE = 7,
 			SOUND = 8,
-			CARDIO = 5
+			THERMAL2 = 9
 		}
 	}
 
