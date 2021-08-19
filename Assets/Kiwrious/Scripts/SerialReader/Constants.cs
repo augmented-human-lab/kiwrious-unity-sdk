@@ -20,6 +20,8 @@
 			SOUND = 8,
 			THERMAL2 = 9
 		}
+		public const uint MAX_CONDUCTANCE_VALUE = 200000;
+		public const uint MIN_CONDUCTANCE_VALUE = 65535;
 	}
 
 	public class OBSERVABLES {
@@ -36,6 +38,5 @@
 		public static string D_TEMPERATURE = "d_temperature";
 		public static string A_TEMPERATURE = "a_temperature";
 	}
-
 
 }

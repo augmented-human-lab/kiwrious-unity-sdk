@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
@@ -261,7 +260,7 @@ public class SerialReader : MonoBehaviour{
         while (attempts < MAX_RETRY_ATTEMPTS)
         {
             attempts++;
-            Debug.Log($"Searching for the header {port}");
+            //Debug.Log($"Searching for the header {port}");
 			
 			buffer.Add(serialPort.BaseStream.ReadByte());
 			if (buffer.Count > PACKET_SIZE) 
@@ -316,134 +315,43 @@ public class SerialReader : MonoBehaviour{
 	#region Decode methods
 	private void DecodeConductivity(string port, byte[] data)
 	{
-		string d0a = Convert.ToString(data[7], 16);
-		string d0b = Convert.ToString(data[6], 16);
-		string d1a = Convert.ToString(data[9], 16);
-		string d1b = Convert.ToString(data[8], 16);
-		if (d0b.Length < 2)
-		{
-			d0b = "0" + d0b;
-		}
-		if (d1b.Length < 2)
-		{
-			d1b = "0" + d1b;
-		}
-		string d0 = d0a + d0b;
-		string d1 = d1a + d1b;
-		int d0i = int.Parse(d0, NumberStyles.HexNumber);
-		int d1i = int.Parse(d1, NumberStyles.HexNumber);
-		if (d0i == 65535)
-		{
-			conductivity = 0;
-		}
-		else
-		{
-			conductivity = d0i * d1i;
-			conductivity = (float)((1 / conductivity) * Math.Pow(10, 6));
-		}
-	}
+		var data0f = BitConverter.ToUInt16(data.Skip(6).Take(2).ToArray(), 0);
+		var data1f = BitConverter.ToUInt16(data.Skip(8).Take(2).ToArray(), 0);
+		var p = data0f * data1f;
+		if (p == 0) { conductivity = 0; return; }
+		conductivity = (float)(1f / p * Math.Pow(10, 6));
+        if (conductivity > MAX_CONDUCTANCE_VALUE)
+        {
+            conductivity = MAX_CONDUCTANCE_VALUE;
+        }
+    }
 
-	private void DecodeHumidity(string port, byte[] data)
+    private void DecodeHumidity(string port, byte[] data)
 	{
-		string temp_a = Convert.ToString(data[7], 16);
-		string temp_b = Convert.ToString(data[6], 16);
-		string hum_a = Convert.ToString(data[9], 16);
-		string hum_b = Convert.ToString(data[8], 16);
-		if (temp_b.Length < 2)
-		{
-			temp_b = "0" + temp_b;
-		}
-		if (hum_b.Length < 2)
-		{
-			hum_b = "0" + hum_b;
-		}
-		string temp = temp_a + temp_b;
-		string hum = hum_a + hum_b;
-		int d0i = int.Parse(temp, NumberStyles.HexNumber);
-		int d1i = int.Parse(hum, NumberStyles.HexNumber);
-		temperature = d0i / 100;
-		humidity = d1i / 100;
+		temperature = BitConverter.ToInt16(data.Skip(6).Take(2).ToArray(), 0) / 100;
+		humidity = BitConverter.ToInt16(data.Skip(8).Take(2).ToArray(), 0) / 100;
 	}
 
 	private void DecodeUV(string port, byte[] data)
 	{
-		string data0_a = Convert.ToString(data[9], 16);
-		string data0_b = Convert.ToString(data[8], 16);
-		string data0_c = Convert.ToString(data[7], 16);
-		string data0_d = Convert.ToString(data[6], 16);
-		string data1_a = Convert.ToString(data[13], 16);
-		string data1_b = Convert.ToString(data[12], 16);
-		string data1_c = Convert.ToString(data[11], 16);
-		string data1_d = Convert.ToString(data[10], 16);
-		if (data0_b.Length < 2)
-		{
-			data0_b = "0" + data0_b;
-		}
-		if (data0_c.Length < 2)
-		{
-			data0_c = "0" + data0_c;
-		}
-		if (data0_d.Length < 2)
-		{
-			data0_d = "0" + data0_d;
-		}
-		if (data1_b.Length < 2)
-		{
-			data1_b = "0" + data1_b;
-		}
-		if (data1_c.Length < 2)
-		{
-			data1_c = "0" + data1_c;
-		}
-		if (data1_d.Length < 2)
-		{
-			data1_d = "0" + data1_d;
-		}
-		string data0 = data0_a + data0_b + data0_c + data0_d;
-		string data1 = data1_a + data1_b + data1_c + data1_d;
-		lux = HexToFloat(data0);
-		uv = HexToFloat(data1);
+		lux = BitConverter.ToSingle(data.Skip(6).Take(4).ToArray(), 0);
+		uv = BitConverter.ToSingle(data.Skip(10).Take(4).ToArray(), 0);
 	}
 
 	private void DecodeColor(string port, byte[] data)
 	{
-		string data0_a = Convert.ToString(data[7], 16);
-		string data0_b = Convert.ToString(data[6], 16);
-		string data1_a = Convert.ToString(data[9], 16);
-		string data1_b = Convert.ToString(data[8], 16);
-		string data2_a = Convert.ToString(data[11], 16);
-		string data2_b = Convert.ToString(data[10], 16);
-		string data3_a = Convert.ToString(data[13], 16);
-		string data3_b = Convert.ToString(data[12], 16);
-		if (data0_b.Length < 2)
-		{
-			data0_b = "0" + data0_b;
-		}
-		if (data1_b.Length < 2)
-		{
-			data1_b = "0" + data1_b;
-		}
-		if (data2_b.Length < 2)
-		{
-			data2_b = "0" + data2_b;
-		}
-		if (data3_b.Length < 2)
-		{
-			data3_b = "0" + data3_b;
-		}
-		string data0 = data0_a + data0_b;
-		string data1 = data1_a + data1_b;
-		string data2 = data2_a + data2_b;
-		string data3 = data3_a + data3_b;
-		double r = Math.Sqrt(int.Parse(data0, NumberStyles.HexNumber));
-		double g = Math.Sqrt(int.Parse(data1, NumberStyles.HexNumber));
-		double b = Math.Sqrt(int.Parse(data2, NumberStyles.HexNumber));
-		double w = Math.Sqrt(int.Parse(data3, NumberStyles.HexNumber));
-		color_h = (float)Math.Floor(r);
-        color_s = (float)Math.Floor(g);
-        color_v = (float)Math.Floor(b);
-    }
+		byte r = (byte)Math.Sqrt(BitConverter.ToUInt16(data.Skip(6).Take(2).ToArray(), 0));
+		byte g = (byte)Math.Sqrt(BitConverter.ToUInt16(data.Skip(8).Take(2).ToArray(), 0));
+		byte b = (byte)Math.Sqrt(BitConverter.ToUInt16(data.Skip(10).Take(2).ToArray(), 0));
+		//var w = BitConverter.ToUInt16(data.Skip(12).Take(2).ToArray(), 0);
+		Color32 original = new Color32(r, g, b, 255);
+		Color.RGBToHSV(original, out color_h, out color_s, out color_v);
+		color_h *= 360;
+		color_s *= 100;
+		color_v *= 100;
+	}
 
+	public byte[] tempx = new byte[26];
 	private void DecodeCardio(string port, byte[] data) {
 		tempx = data;
 		uint data0 = BitConverter.ToUInt32(data.Skip(6).Take(4).ToArray(), 0);
@@ -451,11 +359,9 @@ public class SerialReader : MonoBehaviour{
 		uint data2 = BitConverter.ToUInt32(data.Skip(14).Take(4).ToArray(), 0);
 		uint data3 = BitConverter.ToUInt32(data.Skip(18).Take(4).ToArray(), 0);
 	}
-	public byte[] tempx = new byte[26];
 
 	private void DecodeThermal(string port, byte[] data)
 	{
-		
 		d_temperature = BitConverter.ToInt16(data.Skip(6).Take(2).ToArray(), 0) / 100;
 		a_temperature = BitConverter.ToInt16(data.Skip(8).Take(2).ToArray(), 0) / 100;
 	}
@@ -472,24 +378,8 @@ public class SerialReader : MonoBehaviour{
 
 	private void DecodeVOC(string port, byte[] data)
 	{
-		string data0_a = Convert.ToString(data[7], 16);
-		string data0_b = Convert.ToString(data[6], 16);
-		string data1_a = Convert.ToString(data[9], 16);
-		string data1_b = Convert.ToString(data[8], 16);
-		if (data0_b.Length < 2)
-		{
-			data0_b = "0" + data0_b;
-		}
-		if (data1_b.Length < 2)
-		{
-			data1_b = "0" + data1_b;
-		}
-		string data0 = data0_a + data0_b;
-		string data1 = data1_a + data1_b;
-		int d0i = int.Parse(data0, NumberStyles.HexNumber);
-		int d1i = int.Parse(data1, NumberStyles.HexNumber);
-		voc1 = d0i;
-		voc2 = d1i;
+		voc1 = BitConverter.ToUInt16(data.Skip(6).Take(2).ToArray(), 0);
+		voc2 = BitConverter.ToUInt16(data.Skip(8).Take(2).ToArray(), 0);
 	}
 	#endregion
 
@@ -502,12 +392,6 @@ public class SerialReader : MonoBehaviour{
 			return sensor.Type;
 		}
 		return 0;
-	}
-
-	private float HexToFloat(string hex)
-	{
-		Int32 IntRep = Int32.Parse(hex, NumberStyles.AllowHexSpecifier);
-		return BitConverter.ToSingle(BitConverter.GetBytes(IntRep), 0);
 	}
 
 	private bool IsKiwriousSensorConnectedAt(string port)

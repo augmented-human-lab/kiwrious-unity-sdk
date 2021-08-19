@@ -111,7 +111,40 @@ public class AndroidKiwriousReader : IKiwriousReader
 		return data;
 	}
 
-    public SensorData GetColor()
+	public SensorData GetBodyTemperature() {
+		float ambient = PluginInstance.Call<float>("getAmbientTemperature");
+		float infrared = PluginInstance.Call<float>("getInfraredTemperature");
+		SensorData data = new SensorData
+		{
+			isOnline = getNative("isBodyTempOnline"),
+			status = (int)SENSOR_STATUS.READY,
+			values = new Dictionary<string, float>
+		{
+			{ OBSERVABLES.A_TEMPERATURE, ambient },
+			{ OBSERVABLES.D_TEMPERATURE, infrared }
+		}
+		};
+		return data;
+	}
+
+	public SensorData GetBodyTemperature2()
+	{
+		float ambient = PluginInstance.Call<float>("getAmbientTemperature");
+		float infrared = PluginInstance.Call<float>("getInfraredTemperature");
+		SensorData data = new SensorData
+		{
+			isOnline = getNative("isBodyTempOnline"),
+			status = (int)SENSOR_STATUS.READY,
+			values = new Dictionary<string, float>
+		{
+			{ OBSERVABLES.A_TEMPERATURE, ambient },
+			{ OBSERVABLES.D_TEMPERATURE, infrared }
+		}
+		};
+		return data;
+	}
+
+	public SensorData GetColor()
     {
 		//float color_h = callNative("getColorH");
 		//float color_s = callNative("getColorS");
@@ -145,13 +178,4 @@ public class AndroidKiwriousReader : IKiwriousReader
         throw new System.NotImplementedException();
     }
 
-    public SensorData GetBodyTemperature()
-    {
-        throw new System.NotImplementedException();
-    }
-
-	public SensorData GetBodyTemperature2()
-	{
-		throw new System.NotImplementedException();
-	}
 }
