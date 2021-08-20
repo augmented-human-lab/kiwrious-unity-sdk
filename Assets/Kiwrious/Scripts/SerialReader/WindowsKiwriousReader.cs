@@ -85,11 +85,6 @@ public class WindowsKiwriousReader : IKiwriousReader {
         return data;
     }
 
-    public SensorData GetHeartRate()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public SensorData GetBodyTemperature()
     {
         SensorData data = new SensorData
@@ -115,6 +110,20 @@ public class WindowsKiwriousReader : IKiwriousReader {
         {
             { OBSERVABLES.A_TEMPERATURE, SerialReader.instance.a_temperature },
             { OBSERVABLES.D_TEMPERATURE, SerialReader.instance.d_temperature }
+        }
+        };
+        return data;
+    }
+
+    public SensorData GetHeartRate()
+    {
+        SensorData data = new SensorData
+        {
+            isOnline = SerialReader.instance.sensorEvents[SENSOR_TYPE.CARDIO],
+            status = (int)SENSOR_STATUS.READY,
+            values = new Dictionary<string, float>
+        {
+            { OBSERVABLES.HEART_RATE, SerialReader.instance.heart_rate }
         }
         };
         return data;

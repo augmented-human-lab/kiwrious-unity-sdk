@@ -34,6 +34,7 @@ public class SerialReader : MonoBehaviour{
 	public float color_v;
 	public float a_temperature;
 	public float d_temperature;
+	public float heart_rate;
 
 	public bool listen;
 	public bool autoStart;
@@ -344,8 +345,7 @@ public class SerialReader : MonoBehaviour{
 		byte g = (byte)Math.Sqrt(BitConverter.ToUInt16(data.Skip(8).Take(2).ToArray(), 0));
 		byte b = (byte)Math.Sqrt(BitConverter.ToUInt16(data.Skip(10).Take(2).ToArray(), 0));
 		//var w = BitConverter.ToUInt16(data.Skip(12).Take(2).ToArray(), 0);
-		Color32 original = new Color32(r, g, b, 255);
-		Color.RGBToHSV(original, out color_h, out color_s, out color_v);
+		Color.RGBToHSV(new Color32(r, g, b, 255), out color_h, out color_s, out color_v);
 		color_h *= 360;
 		color_s *= 100;
 		color_v *= 100;
@@ -353,21 +353,28 @@ public class SerialReader : MonoBehaviour{
 
 	public byte[] tempx = new byte[26];
 	private void DecodeCardio(string port, byte[] data) {
-		tempx = data;
 		uint data0 = BitConverter.ToUInt32(data.Skip(6).Take(4).ToArray(), 0);
 		uint data1 = BitConverter.ToUInt32(data.Skip(10).Take(4).ToArray(), 0);
 		uint data2 = BitConverter.ToUInt32(data.Skip(14).Take(4).ToArray(), 0);
 		uint data3 = BitConverter.ToUInt32(data.Skip(18).Take(4).ToArray(), 0);
+		heart_rate = 72; // for testing;
+		// implement decode code here...
+		//tempx[0] = data0;
+		//tempx[1] = data1;
+		//tempx[2] = data2;
+		//tempx[3] = data3;
 	}
 
 	private void DecodeThermal(string port, byte[] data)
 	{
+		tempx = data;
 		d_temperature = BitConverter.ToInt16(data.Skip(6).Take(2).ToArray(), 0) / 100;
 		a_temperature = BitConverter.ToInt16(data.Skip(8).Take(2).ToArray(), 0) / 100;
 	}
 
 	private void DecodeThermal2(string port, byte[] data)
 	{
+		tempx = data;
 		a_temperature = BitConverter.ToInt16(data.Skip(6).Take(2).ToArray(), 0) / 100;
 		ushort x = BitConverter.ToUInt16(data.Skip(8).Take(2).ToArray(), 0);
 		float a = BitConverter.ToSingle(data.Skip(10).Take(4).ToArray(), 0);

@@ -112,8 +112,10 @@ public class AndroidKiwriousReader : IKiwriousReader
 	}
 
 	public SensorData GetBodyTemperature() {
-		float ambient = PluginInstance.Call<float>("getAmbientTemperature");
-		float infrared = PluginInstance.Call<float>("getInfraredTemperature");
+
+		float ambient = PluginInstance.Call<int>("getAmbientTemperature");
+		float infrared = PluginInstance.Call<int>("getInfraredTemperature");
+
 		SensorData data = new SensorData
 		{
 			isOnline = getNative("isBodyTempOnline"),
@@ -129,8 +131,8 @@ public class AndroidKiwriousReader : IKiwriousReader
 
 	public SensorData GetBodyTemperature2()
 	{
-		float ambient = PluginInstance.Call<float>("getAmbientTemperature");
-		float infrared = PluginInstance.Call<float>("getInfraredTemperature");
+		float ambient = PluginInstance.Call<int>("getAmbientTemperature");
+		float infrared = PluginInstance.Call<int>("getInfraredTemperature");
 		SensorData data = new SensorData
 		{
 			isOnline = getNative("isBodyTempOnline"),
@@ -139,6 +141,20 @@ public class AndroidKiwriousReader : IKiwriousReader
 		{
 			{ OBSERVABLES.A_TEMPERATURE, ambient },
 			{ OBSERVABLES.D_TEMPERATURE, infrared }
+		}
+		};
+		return data;
+	}
+
+	public SensorData GetHeartRate() {
+		float hr = PluginInstance.Call<int>("getHeartRate");
+		SensorData data = new SensorData
+		{
+			isOnline = getNative("isHeartRateOnline"),
+			status = (int)SENSOR_STATUS.READY,
+			values = new Dictionary<string, float>
+		{
+			{ OBSERVABLES.HEART_RATE, hr }
 		}
 		};
 		return data;
@@ -172,10 +188,5 @@ public class AndroidKiwriousReader : IKiwriousReader
 	{
 		return PluginInstance.Get<bool>(propertyName);
 	}
-
-    public SensorData GetHeartRate()
-    {
-        throw new System.NotImplementedException();
-    }
 
 }

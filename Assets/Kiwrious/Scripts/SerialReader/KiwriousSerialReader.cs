@@ -83,6 +83,7 @@ public class KiwriousSerialReader : MonoBehaviour {
                 sensorData[GetSensorName(SENSOR_TYPE.COLOR)] = kiwriousReader.GetColor();
                 sensorData[GetSensorName(SENSOR_TYPE.THERMAL)] = kiwriousReader.GetBodyTemperature();
                 sensorData[GetSensorName(SENSOR_TYPE.THERMAL2)] = kiwriousReader.GetBodyTemperature2();
+                sensorData[GetSensorName(SENSOR_TYPE.CARDIO)] = kiwriousReader.GetHeartRate();
             }
             catch (Exception ex)
             {
