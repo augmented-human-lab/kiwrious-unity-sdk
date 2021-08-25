@@ -156,7 +156,7 @@ PlayerSettings:
     Standalone: com.ahlab.kiwriousreader
   buildNumber:
     Standalone: 106
-  AndroidBundleVersionCode: 105
+  AndroidBundleVersionCode: 106
   AndroidMinSdkVersion: 26
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1

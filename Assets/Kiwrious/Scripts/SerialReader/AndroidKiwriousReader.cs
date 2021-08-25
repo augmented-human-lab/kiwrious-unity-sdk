@@ -162,22 +162,21 @@ public class AndroidKiwriousReader : IKiwriousReader
 
 	public SensorData GetColor()
     {
-		//float color_h = callNative("getColorH");
-		//float color_s = callNative("getColorS");
-		//float color_v = callNative("getColorV");
-		//SensorData data = new SensorData
-		//{
-		//	isOnline = getNative("color_online"),
-		//	status = (int)SENSOR_STATUS.READY,
-		//	values = new Dictionary<string, float>
-		//{
-		//	{ OBSERVABLES.COLOR_H, color_h },
-		//	{ OBSERVABLES.COLOR_S, color_s },
-		//	{ OBSERVABLES.COLOR_V, color_v }
-		//}
-		//};
-		return new SensorData();
-		//return data;
+        float color_h = PluginInstance.Call<int>("getR");
+        float color_s = PluginInstance.Call<int>("getG");
+        float color_v = PluginInstance.Call<int>("getB");
+        SensorData data = new SensorData
+        {
+            isOnline = getNative("isColorOnline"),
+            status = (int)SENSOR_STATUS.READY,
+            values = new Dictionary<string, float>
+        {
+            { OBSERVABLES.COLOR_H, color_h },
+            { OBSERVABLES.COLOR_S, color_s },
+            { OBSERVABLES.COLOR_V, color_v }
+        }
+        };
+		return data;
 	}
 
 	private float callNative(string methodName) {
