@@ -33,14 +33,18 @@ KiwriousSerialReader.instance.sensorData[sensorName].values[propertyName];
 ```
 
 ```csharp
-  KiwriousSerialReader.instance.sensorData["Conductivity"].values["Conductivity"]
-  KiwriousSerialReader.instance.sensorData["Humidity"].values["Humidity"]
-  KiwriousSerialReader.instance.sensorData["Humidity"].values["Temperature"]
-  KiwriousSerialReader.instance.sensorData["Uv"].values["UV"]
-  KiwriousSerialReader.instance.sensorData["Color"].values["ColorH"]
-  KiwriousSerialReader.instance.sensorData["Color"].values["ColorS"]
-  KiwriousSerialReader.instance.sensorData["Color"].values["ColorV"]
-  KiwriousSerialReader.instance.sensorData["VOC"].values["VOC"]
+  KiwriousSerialReader.instance.sensorData["EC"].values["conductivity"]
+  KiwriousSerialReader.instance.sensorData["CLIMATE"].values["humidity"]
+  KiwriousSerialReader.instance.sensorData["CLIMATE"].values["temperature"]
+  KiwriousSerialReader.instance.sensorData["LIGHT"].values["uv"]
+  KiwriousSerialReader.instance.sensorData["LIGHT"].values["lux"]
+  KiwriousSerialReader.instance.sensorData["COLOR"].values["color_h"]
+  KiwriousSerialReader.instance.sensorData["COLOR"].values["color_s"]
+  KiwriousSerialReader.instance.sensorData["COLOR"].values["color_v"]
+  KiwriousSerialReader.instance.sensorData["VOC"].values["voc"]
+  KiwriousSerialReader.instance.sensorData["THERMAL2"].values["d_temperature"]
+  KiwriousSerialReader.instance.sensorData["THERMAL2"].values["a_temperature"]
+  KiwriousSerialReader.instance.sensorData["CARDIO"].values["heart_rate"]
 ```
 
 ## Supported Build Platforms
