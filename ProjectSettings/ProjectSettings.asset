@@ -725,7 +725,7 @@ PlayerSettings:
   apiCompatibilityLevel: 3
   cloudProjectId: 255802c3-e3a4-4e7a-b61e-a757b0d3007c
   projectName: Unity_Kiwrious_SDK
-  organizationId: bsc2fast
+  organizationId: kiwrious
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
