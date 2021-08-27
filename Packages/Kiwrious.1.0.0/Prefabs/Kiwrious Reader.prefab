@@ -9,31 +9,31 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1092623291454956}
+  m_RootGameObject: {fileID: 1881281245923160}
   m_IsPrefabAsset: 1
---- !u!1 &1092623291454956
+--- !u!1 &1881281245923160
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4568903737323490}
-  - component: {fileID: 114248561211193522}
-  - component: {fileID: 114790575789910760}
+  - component: {fileID: 4275795097285126}
+  - component: {fileID: 114196379214259904}
+  - component: {fileID: 114936072611297006}
   m_Layer: 0
-  m_Name: Serial Reader
+  m_Name: Kiwrious Reader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4568903737323490
+--- !u!4 &4275795097285126
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1092623291454956}
+  m_GameObject: {fileID: 1881281245923160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,15 +41,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114248561211193522
+--- !u!114 &114196379214259904
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1092623291454956}
+  m_GameObject: {fileID: 1881281245923160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbac9e9fb26ad0478a821f76148c906, type: 3}
+  m_Script: {fileID: 11500000, guid: 45618551e0770084ab82803fc9c5f409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   voc1: 0
@@ -62,20 +62,24 @@ MonoBehaviour:
   color_h: 0
   color_s: 0
   color_v: 0
+  a_temperature: 0
+  d_temperature: 0
+  heart_rate: 0
   listen: 1
-  autoStart: 0
+  autoStart: 1
   connectedSerialPorts: []
   kiwriousSensorRegistry: []
   connectedKiwriousSensors: []
---- !u!114 &114790575789910760
+  tempx: 0000000000000000000000000000000000000000000000000000
+--- !u!114 &114936072611297006
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1092623291454956}
+  m_GameObject: {fileID: 1881281245923160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48c71030731ad26449bc41db3a0c2857, type: 3}
+  m_Script: {fileID: 11500000, guid: 629d4938954ab2b48910f04580b73176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   readersInitiated: 0

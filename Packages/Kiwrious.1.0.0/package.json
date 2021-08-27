@@ -1,0 +1,22 @@
+{
+    "name": "com.kiwrious.sdk.unity",
+    "version": "1.0.2",
+    "displayName": "Kiwrious Development",
+    "type": "tool",
+    "description": "Adding support for kiwrious hardware sensors",
+    "unity": "2018.2",
+    "unityRelease": "11f1",
+    "documentationUrl": "https://example.com/",
+    "changelogUrl": "https://example.com/changelog.html",
+    "licensesUrl": "https://example.com/licensing.html",
+    "keywords": [
+        "serial",
+        "sensor",
+        "science"
+    ],
+    "author": {
+        "name": "Sankha Cooray",
+        "email": "sankha@ahlab.com",
+        "url": "https://www.kiwrious.com"
+    }
+}
