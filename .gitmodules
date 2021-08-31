@@ -1,0 +1,3 @@
+[submodule "Packages/kiwrious-unity-package"]
+	path = Packages/kiwrious-unity-package
+	url = https://github.com/augmented-human-lab/kiwrious-unity-package.git
