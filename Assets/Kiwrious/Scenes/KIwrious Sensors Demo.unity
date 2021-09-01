@@ -1129,35 +1129,35 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795097285126, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
+    - target: {fileID: 4015929560143488, guid: c610cc190cee0c74fa8479d34f1b44a1, type: 2}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
