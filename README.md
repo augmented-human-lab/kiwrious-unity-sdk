@@ -1,4 +1,6 @@
-# Kiwrious Unity SDK
+# Kiwrious Unity SDK [Obsolete]
+
+Please use our new [kiwrious-unity-package](https://github.com/augmented-human-lab/kiwrious-unity-package)
 
 This project enables communication between kiwrious sensors and unity editor.
 Project made with `unity 2018.2.11f1`. You may use higher versions but avoid opening this on lower version.
