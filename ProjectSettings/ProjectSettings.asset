@@ -246,7 +246,7 @@ PlayerSettings:
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: J:/Projects/AHLab/kiwrious-unity-sdk/Keystore/kiwrious_reader_u.keystore
-  AndroidKeyaliasName: 
+  AndroidKeyaliasName: org.ahlab.kiwriousreaderu
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 0
@@ -650,6 +650,7 @@ PlayerSettings:
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   apiCompatibilityLevelPerPlatform:
+    Android: 3
     Standalone: 3
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
