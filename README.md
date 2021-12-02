@@ -31,7 +31,7 @@ KiwriousSerialReader.instance.StopSerialReader();
 
 * Get raw value
 ```csharp
-KiwriousSerialReader.instance.rawData
+KiwriousSerialReader.instance.sensorRawData
 ```
 
 All sensor values are processed as float values.
